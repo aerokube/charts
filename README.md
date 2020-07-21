@@ -1,6 +1,6 @@
 # Aerokube Charts Repository
 
-This repository contains source files for Aerokube [Helm] charts.
+This repository contains source files for Aerokube [Helm](https://helm.sh/) charts.
 
 ## Usage
 
