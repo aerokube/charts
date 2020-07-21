@@ -26,7 +26,6 @@ steps:
   commands:
     - export OUTPUT_DIR="output"
     - ./ci/build.sh $OUTPUT_DIR ${DRONE_TAG}
-    - ./ci/build.sh $OUTPUT_DIR latest-release
   when:
     branch: master
     event: tag
