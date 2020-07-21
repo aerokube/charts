@@ -1,4 +1,8 @@
-## Aerokube Charts Repository
+# Aerokube Charts Repository
+
+This repository contains source files for Aerokube [Helm] charts.
+
+## Usage
 
 ```
 $ helm repo add aerokube https://charts.aerokube.com/
