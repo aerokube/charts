@@ -119,8 +119,8 @@ spec:
               serviceName: {{ $releaseName }}
               servicePort: {{ $v.port }}
         {{- end }}
----
 {{- end }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
