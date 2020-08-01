@@ -230,6 +230,8 @@ spec:
         - /license/license.key
         - -listen
         - ":8888"
+        - -domain-name
+        - {{ .Release.Name }}-browsers
         {{- if .Values.moon.enabled.resources }}
         {{- if .Values.moon.api }}
         {{- if .Values.moon.api.resources }}
