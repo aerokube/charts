@@ -547,6 +547,9 @@ moon:
           "83.0":
             image: selenoid/vnc_chrome:83.0
             port: "4444"
+          "82.0":
+            image: selenoid/vnc_chrome:83.0
+            port: "4444"
           "81.0":
             image: selenoid/vnc_chrome:81.0
             port: "4444"
