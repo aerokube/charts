@@ -15,8 +15,8 @@ steps:
 - name: build_latest_chart
   image: alpine/helm:3.2.4
   commands:
-    - export OUTPUT_DIR="output"
-    - ./ci/build.sh $OUTPUT_DIR latest
+    - export VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))-$(git rev-parse --short HEAD)
+    - ./ci/build.sh $VERSION unstable
   when:
     branch: master
     event: push
@@ -24,8 +24,7 @@ steps:
 - name: build_release_chart
   image: alpine/helm:3.2.4
   commands:
-    - export OUTPUT_DIR="output"
-    - ./ci/build.sh $OUTPUT_DIR ${DRONE_TAG}
+    - ./ci/build.sh ${DRONE_TAG}
   when:
     branch: master
     event: tag
