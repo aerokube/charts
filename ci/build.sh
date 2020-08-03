@@ -2,10 +2,15 @@
 
 CHARTS_REPO="https://charts.aerokube.com/"
 
-output_dir=${1:-"output"}
-version=${2:-"latest"}
+version=$1
+path=${2:-""}
+output_dir="output"
+if [ -n "$path" ]; then
+    output_dir="$output_dir/$path"
+    CHARTS_REPO="$CHARTS_REPO$path/"
+fi
 mkdir -p ${output_dir}
-tar cvz -f ${output_dir}/moon-${version}.tgz moon
+helm package moon --destination ${output_dir} --version ${version}
 cd ${output_dir}
 wget ${CHARTS_REPO}/index.yaml || true
 helm repo index . --url ${CHARTS_REPO} --merge index.yaml
