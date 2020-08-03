@@ -12,6 +12,14 @@ steps:
     branch: master
     event: [push, tag, pull_request]
 
+- name: fetch_git_tags
+  image: alpine/git
+  commands:
+    - git fetch --tags
+  when:
+    branch: master
+    event: push
+
 - name: build_latest_chart
   image: alpine/helm:3.2.4
   commands:
