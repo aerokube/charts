@@ -136,6 +136,8 @@ spec:
       labels:
         app: moon
     spec:
+      nodeSelector:                   
+        kubernetes.io/os: linux
       serviceAccountName: {{ .Release.Name }}
       containers:
       - name: moon
