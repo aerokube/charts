@@ -136,6 +136,12 @@ spec:
       labels:
         app: moon
     spec:
+      {{- if .Values.moon.nodeSelector }}
+      nodeSelector:
+        {{- range $key, $value := .Values.moon.nodeSelector }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
+      {{- end }}
       serviceAccountName: {{ .Release.Name }}
       containers:
       - name: moon

@@ -20,7 +20,13 @@ moon:
 #    sessionAttemptTimeout: 30m
 
 #  ##
-#  ## Number of running moon replicas.
+#  ## Node Selector for Moon pods
+#  ##
+#  nodeSelector:
+#    kubernetes.io/os: linux
+
+#  ##
+#  ## Number of running Moon replicas.
 #  ##
 #  replicas: 2
 
