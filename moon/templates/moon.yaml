@@ -41,16 +41,6 @@ subjects:
   namespace: {{ .Release.Namespace }}
   name: {{ .Release.Name }}
 ---
-kind: ResourceQuota
-apiVersion: v1
-metadata:
-  name: max-moon-sessions
-  namespace: {{ .Release.Namespace }}
-spec:
-  hard:
-    pods: "6"
-  scopes: ["NotTerminating"]
----
 apiVersion: v1
 kind: Service
 metadata:
