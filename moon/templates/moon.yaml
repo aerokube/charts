@@ -282,7 +282,7 @@ spec:
           name: {{ .Release.Name }}-config
       - name: credentials
         secret:
-          secretName: {{ .Release.Name }}-credentials
+          secretName: credentials
       - name: users
         secret:
           secretName: {{ .Release.Name }}-users
@@ -293,7 +293,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ .Release.Name }}-credentials
+  name: credentials
   namespace: {{ .Release.Namespace }}
   labels:
 stringData:
