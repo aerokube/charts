@@ -98,6 +98,10 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
+{{- if .Values.moon.ingress.tls }}
+  tls:
+{{ toYaml .Values.moon.ingress.tls | nindent 4 }}
+{{- end }}
   rules:
     - host: {{ .Values.moon.ingress.host }}
       http:
@@ -131,6 +135,14 @@ spec:
         {{- range $key, $value := .Values.moon.nodeSelector }}
         {{ $key }}: {{ $value | quote }}
         {{- end }}
+      {{- end }}
+      {{- with .Values.moon.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.moon.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ .Release.Name }}
       containers:

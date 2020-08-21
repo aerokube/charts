@@ -25,6 +25,29 @@ moon:
 #  nodeSelector:
 #    kubernetes.io/os: linux
 
+## Assign custom affinity rules to the instance
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+##
+  affinity: {}
+#   nodeAffinity:
+#     requiredDuringSchedulingIgnoredDuringExecution:
+#       nodeSelectorTerms:
+#       - matchExpressions:
+#         - key: kubernetes.io/e2e-az-name
+#           operator: In
+#           values:
+#           - e2e-az1
+#           - e2e-az2
+
+  ## If specified, the pod's tolerations.
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+#     - key: "key"
+#       operator: "Equal"
+#       value: "value"
+#       effect: "NoSchedule"
+
 #  ##
 #  ## Number of running Moon replicas.
 #  ##
@@ -82,6 +105,10 @@ moon:
     annotations:
       kubernetes.io/ingress.class: nginx
     host: moon.aerokube.local
+    tls: []
+#     - secretName: moon-tls
+#       hosts:
+#       - moon.aerokube.local
     paths:
     - path: /
       port: 8080
