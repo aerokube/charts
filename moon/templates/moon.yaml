@@ -147,7 +147,11 @@ spec:
       serviceAccountName: {{ .Release.Name }}
       containers:
       - name: moon
+        {{- if .Values.moon.image }}
+        image: {{ .Values.moon.image }}
+        {{- else }}
         image: aerokube/moon:{{ .Chart.AppVersion }}
+        {{- end }}
         args:
         - -namespace
         - {{ .Release.Namespace }}
@@ -230,7 +234,11 @@ spec:
           mountPath: /license
           readOnly: true
       - name: moon-api
+        {{- if .Values.moon.api.image }}
+        image: {{ .Values.moon.api.image }}
+        {{- else }}
         image: aerokube/moon-api:{{ .Chart.AppVersion }}
+        {{- end }}
         args:
         - -namespace
         - {{ .Release.Namespace }}
