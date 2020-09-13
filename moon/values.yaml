@@ -64,6 +64,11 @@ moon:
       cpu: 0.5
       memory: 64Mi
 
+#  ##
+#  ## Override moon image
+#  ##
+#  image: aerokube/moon:dev
+
   ##
   ## Resources assigned to moon-api container.
   ##
@@ -75,6 +80,10 @@ moon:
       requests:
         cpu: "0.05"
         memory: 64Mi
+#    ##
+#    ## Override moon-api image
+#    ##
+#    image: aerokube/moon-api:dev
 
   ##
   ## Resources assigned to moon-ui container.
@@ -112,8 +121,18 @@ moon:
     paths:
     - path: /
       port: 8080
-#    - path: /wd/hub
-#      port: 4444
+    - path: /wd/hub
+      port: 4444
+    - path: /playwright
+      port: 4444
+    - path: /cdtp
+      port: 4444
+    - path: /download
+      port: 4444
+    - path: /clipboard
+      port: 4444
+    - path: /devtools
+      port: 4444
 
   ##
   ## Moon configuration.
