@@ -272,6 +272,14 @@ spec:
         - http://localhost:8888
         - -webdriver-uri
         - http://localhost:4444
+        {{- if .Values.moon.ui }}
+        {{- if .Values.moon.ui.auth }}
+        {{- if .Values.moon.ui.auth.enabled }}
+        - -users
+        - /users/users.htpasswd
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.moon.enabled.resources }}
         {{- if .Values.moon.ui }}
         {{- if .Values.moon.ui.resources }}
@@ -283,6 +291,16 @@ spec:
         ports:
         - name: moon-ui
           containerPort: 8080
+        {{- if .Values.moon.ui }}
+        {{- if .Values.moon.ui.auth }}
+        {{- if .Values.moon.ui.auth.enabled }}
+        volumeMounts:
+          - name: users
+            mountPath: /users
+            readOnly: true
+        {{- end }}
+        {{- end }}
+        {{- end }}
       volumes:
       - name: quota
         configMap:

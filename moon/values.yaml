@@ -97,6 +97,12 @@ moon:
         cpu: "0.05"
         memory: 64Mi
 
+#  ##
+#  ## Enable authentication for moon-ui.
+#  ##
+#    auth:
+#      enabled: true
+
   ##
   ## Moon entrypoint.
   ##
