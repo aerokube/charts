@@ -97,6 +97,12 @@ moon:
         cpu: "0.05"
         memory: 64Mi
 
+#  ##
+#  ## Enable authentication for moon-ui.
+#  ##
+#    auth:
+#      enabled: true
+
   ##
   ## Moon entrypoint.
   ##
@@ -852,8 +858,11 @@ moon:
                 cpu: "2"
                 memory: "4Gi"
       opera:
-        default: "71.0"
+        default: "72.0"
         versions:
+          "72.0":
+            image: selenoid/vnc_opera:72.0
+            port: "4444"
           "71.0":
             image: selenoid/vnc_opera:71.0
             port: "4444"
