@@ -274,8 +274,34 @@ moon:
 #        limits: 1Gi
 #        requests: 512Mi
 
+#  ##
+#  ## Custom browser configuration to ovewrite defaults, it is used instead quota if exists. For ex. major browsers latest versions.
+#  ##
+#  customQuota:
+#    browsers:
+#      safari:
+#        default: "13.0"
+#        versions:
+#          "13.0":
+#            image: browsers/safari:13.0
+#            port: "4444"
+#            path: "/"
+#      firefox:
+#        default: "83.0"
+#        versions:
+#          "83.0":
+#            image: selenoid/vnc_firefox:83.0
+#            port: "4444"
+#            path: "/wd/hub"
+#      chrome:
+#        default: "87.0"
+#        versions:
+#          "87.0":
+#            image: selenoid/vnc_chrome:87.0
+#            port: "4444"
+
   ##
-  ## Moon browsers configuration.
+  ## Default Moon browsers configuration.
   ##
   quota:
     browsers:
