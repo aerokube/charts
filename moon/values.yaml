@@ -96,6 +96,10 @@ moon:
       requests:
         cpu: "0.05"
         memory: 64Mi
+#    ##
+#    ## Override moon-ui image
+#    ##
+#    image: aerokube/selenoid-ui:dev
 
 #  ##
 #  ## Enable authentication for moon-ui.

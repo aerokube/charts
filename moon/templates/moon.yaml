@@ -266,7 +266,11 @@ spec:
           mountPath: /license
           readOnly: true
       - name: moon-ui
+        {{- if and .Values.moon.ui .Values.moon.ui.image }}
+        image: {{ .Values.moon.ui.image }}
+        {{- else }}
         image: aerokube/selenoid-ui:1.10.2
+        {{- end }}
         args:
         - -status-uri
         - http://localhost:8888
