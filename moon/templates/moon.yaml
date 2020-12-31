@@ -87,6 +87,7 @@ spec:
   clusterIP: None
   publishNotReadyAddresses: true
 ---
+{{- if .Values.moon.ingress }}
 {{- if .Values.moon.ingress.enabled }}
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -113,6 +114,7 @@ spec:
               serviceName: {{ $releaseName }}
               servicePort: {{ $v.port }}
         {{- end }}
+{{- end }}
 {{- end }}
 ---
 apiVersion: apps/v1
@@ -234,8 +236,10 @@ spec:
           mountPath: /license
           readOnly: true
       - name: moon-api
+        {{- if .Values.moon.api }}
         {{- if .Values.moon.api.image }}
         image: {{ .Values.moon.api.image }}
+        {{- end }}
         {{- else }}
         image: aerokube/moon-api:{{ .Chart.AppVersion }}
         {{- end }}
@@ -456,6 +460,16 @@ data:
       {{- end }}
       {{- end }}
     }
+  {{- if or .Values.moon.mobileDevices .Values.moon.customMobileDevices }}
+  devices.json: |
+    {{- if .Values.moon.customMobileDevices }}
+    {{ .Values.moon.customMobileDevices | toJson }}
+    {{- else }}
+    {{- if .Values.moon.mobileDevices }}
+    {{ .Values.moon.mobileDevices | toJson }}
+    {{- end }}
+    {{- end }}
+  {{- end }}
 ---
 apiVersion: v1
 kind: ConfigMap
