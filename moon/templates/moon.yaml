@@ -236,10 +236,8 @@ spec:
           mountPath: /license
           readOnly: true
       - name: moon-api
-        {{- if .Values.moon.api }}
-        {{- if .Values.moon.api.image }}
+        {{- if and .Values.moon.api .Values.moon.api.image }}
         image: {{ .Values.moon.api.image }}
-        {{- end }}
         {{- else }}
         image: aerokube/moon-api:{{ .Chart.AppVersion }}
         {{- end }}
