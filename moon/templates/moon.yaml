@@ -132,6 +132,10 @@ spec:
       labels:
         app: moon
     spec:
+      {{- with .Values.moon.securityContext }}
+      securityContext:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
       {{- if .Values.moon.nodeSelector }}
       nodeSelector:
         {{- range $key, $value := .Values.moon.nodeSelector }}
