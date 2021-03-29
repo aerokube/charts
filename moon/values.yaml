@@ -335,8 +335,12 @@ moon:
             port: "4444"
             path: "/"
       MicrosoftEdge:
-        default: "90.0"
+        default: "91.0"
         versions:
+          "91.0":
+            image: browsers/edge:91.0
+            port: "4444"
+            path: "/"
           "90.0":
             image: browsers/edge:90.0
             port: "4444"
@@ -350,8 +354,16 @@ moon:
             port: "4444"
             path: "/"
       firefox:
-        default: "85.0"
+        default: "87.0"
         versions:
+          "87.0":
+            image: selenoid/vnc_firefox:87.0
+            port: "4444"
+            path: "/wd/hub"
+          "86.0":
+            image: selenoid/vnc_firefox:86.0
+            port: "4444"
+            path: "/wd/hub"
           "85.0":
             image: selenoid/vnc_firefox:85.0
             port: "4444"
@@ -685,8 +697,11 @@ moon:
             port: "4444"
             path: "/wd/hub"
       chrome:
-        default: "88.0"
+        default: "89.0"
         versions:
+          "89.0":
+            image: selenoid/vnc_chrome:89.0
+            port: "4444"
           "88.0":
             image: selenoid/vnc_chrome:88.0
             port: "4444"
@@ -925,8 +940,11 @@ moon:
                 cpu: "2"
                 memory: "4Gi"
       opera:
-        default: "74.0"
+        default: "75.0"
         versions:
+          "75.0":
+            image: selenoid/vnc_opera:75.0
+            port: "4444"
           "74.0":
             image: selenoid/vnc_opera:74.0
             port: "4444"
