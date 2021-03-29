@@ -28,7 +28,7 @@ moon:
 ## If specified, the pod's security policies.
 ## ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
 ##
-#  securityContext: 
+#  securityContext:
 #    runAsUser: 1000
 
 ## Assign custom affinity rules to the instance
@@ -75,6 +75,11 @@ moon:
 #  ##
 #  image: aerokube/moon:dev
 
+#  ##
+#  ## Override moon guest user
+#  ##
+#  guestUser: browsers
+
   ##
   ## Resources assigned to moon-api container.
   ##
@@ -90,6 +95,11 @@ moon:
 #    ## Override moon-api image
 #    ##
 #    image: aerokube/moon-api:dev
+
+#    ##
+#    ## Override moon-api guest user
+#    ##
+#    guestUser: browsers
 
   ##
   ## Resources assigned to moon-ui container.

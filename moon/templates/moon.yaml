@@ -169,6 +169,10 @@ spec:
         - http://{{ .Release.Name }}:4444/wd/hub
         - -domain-name
         - {{ .Release.Name }}-browsers
+        {{- if .Values.moon.guestUser }}
+        - -guest-user
+        - {{ .Values.moon.guestUser }}
+        {{- end }}
         {{- if .Values.moon.timeouts }}
         {{- if .Values.moon.timeouts.sessionTimeout }}
         - -timeout
@@ -254,6 +258,10 @@ spec:
         - ":8888"
         - -domain-name
         - {{ .Release.Name }}-browsers
+        {{- if and .Values.moon.api .Values.moon.api.guestUser }}
+        - -guest-user
+        - {{ .Values.moon.api.guestUser }}
+        {{- end }}
         {{- if .Values.moon.enabled.resources }}
         {{- if .Values.moon.api }}
         {{- if .Values.moon.api.resources }}
