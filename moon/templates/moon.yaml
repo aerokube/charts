@@ -4,6 +4,12 @@ kind: ServiceAccount
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
+  {{- if and .Values.moon.serviceaccount .Values.moon.serviceaccount.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.moon.serviceaccount.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
