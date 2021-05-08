@@ -179,6 +179,20 @@ spec:
         - -guest-user
         - {{ .Values.moon.guestUser }}
         {{- end }}
+        {{- if .Values.moon.repository }}
+        {{- if .Values.moon.repository.chromeDevtools }}
+        - -chrome-devtools-repository
+        - {{ .Values.moon.repository.chromeDevtools }}
+        {{- end }}
+        {{- if .Values.moon.repository.cypress }}
+        - -cypress-repository
+        - {{ .Values.moon.repository.cypress }}
+        {{- end }}
+        {{- if .Values.moon.repository.playwright }}
+        - -playwright-repository
+        - {{ .Values.moon.repository.playwright }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.moon.timeouts }}
         {{- if .Values.moon.timeouts.sessionTimeout }}
         - -timeout
