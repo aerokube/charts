@@ -88,6 +88,23 @@ moon:
 #  ##
 #  guestUser: browsers
 
+#  ##
+#  ## Override repository for pulling images
+#  ##
+#  repository:
+#    ##
+#    ## Override repository for Chrome Devtools images
+#    ##
+#    chromeDevtools: quay.io/cdtp
+#    ##
+#    ## Override repository for Cypress images
+#    ##
+#    cypress: quay.io/browsers
+#    ##
+#    ## Override repository for Playwright images
+#    ##
+#    playwright: quay.io/playwright
+
   ##
   ## Resources assigned to moon-api container.
   ##
