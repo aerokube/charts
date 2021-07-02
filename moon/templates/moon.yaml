@@ -318,6 +318,10 @@ spec:
         - /users/users.htpasswd
         {{- end }}
         {{- end }}
+        {{- if .Values.moon.ui.externalAccess }}
+        - -allowed-origin
+        - "*"
+        {{- end }}
         {{- end }}
         {{- if .Values.moon.enabled.resources }}
         {{- if .Values.moon.ui }}

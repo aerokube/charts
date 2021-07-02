@@ -148,6 +148,11 @@ moon:
 #    auth:
 #      enabled: true
 
+#  ##
+#  ## Whether to allow access to VNC and logs from the outside
+#  ##
+#    externalAccess: true
+
   ##
   ## Moon entrypoint.
   ##
