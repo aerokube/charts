@@ -318,6 +318,11 @@ moon:
 #    labels: {}
 #
 #    ##
+#    ## Global node selector for browser pod.
+#    ##
+#    nodeSelector: {}
+#
+#    ##
 #    ## Global browser container resources, can be overridden in quota.
 #    ##
 #    resources:

@@ -393,6 +393,13 @@ data:
       "labels": {{ .Values.moon.browser.labels | toJson }}
       {{- end }}
       {{- end }}
+      {{- if .Values.moon.browser }}
+      {{- if .Values.moon.browser.nodeSelector }}
+      {{- if $comma }},{{ end }}
+      {{- $comma = true }}
+      "nodeSelector": {{ .Values.moon.browser.nodeSelector | toJson }}
+      {{- end }}
+      {{- end }}
       {{- if .Values.moon.config }}
       {{- if .Values.moon.config.kernelCaps }}
       {{- if $comma }},{{ end }}
