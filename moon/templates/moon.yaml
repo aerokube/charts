@@ -78,7 +78,7 @@ spec:
   type: {{ .Values.moon.service.type }}
   {{- if .Values.moon.service.loadBalancerIP }}
   loadBalancerIP: {{ .Values.moon.service.loadBalancerIP }}
-  {{- end }
+  {{- end }}
   {{- with .Values.moon.service.externalIPs }}
   externalIPs:
   {{- range . }}
