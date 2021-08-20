@@ -76,6 +76,9 @@ spec:
     protocol: TCP
     port: 8080
   type: {{ .Values.moon.service.type }}
+  {{- if .Values.moon.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.moon.service.loadBalancerIP }}
+  {{- end }
   {{- with .Values.moon.service.externalIPs }}
   externalIPs:
   {{- range . }}
