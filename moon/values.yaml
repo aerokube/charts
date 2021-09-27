@@ -173,8 +173,8 @@ moon:
   ##
   ingress:
     enabled: false
-    annotations:
-      kubernetes.io/ingress.class: nginx
+    annotations: {}
+    ingressClassName: nginx
     host: moon.aerokube.local
     tls: []
 #     - secretName: moon-tls
