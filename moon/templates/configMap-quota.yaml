@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-quota
+  namespace: {{ .Release.Namespace }}
+data:
+{{- if .Values.moon.customQuota }}
+{{- range $k,$v := .Values.moon.customQuota }}
+  {{ $k }}.json: |
+    {{ $v | toJson }}
+{{- end }}
+{{- else }}
+{{- if .Values.moon.quota }}
+{{- range $k,$v := .Values.moon.quota }}
+  {{ $k }}.json: |
+    {{ $v | toJson }}
+{{- end }}
+{{- end }}
+{{- end }}
