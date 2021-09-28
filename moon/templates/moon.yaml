@@ -380,7 +380,11 @@ spec:
           secretName: {{ .Release.Name }}-users
       - name: license-key
         secret:
+          {{- if .Values.moon.licenseKeySecretName }}
+          secretName: {{ .Values.moon.licenseKeySecretName }}
+          {{- else }}
           secretName: licensekey
+          {{- end }}
 ---
 apiVersion: v1
 kind: Secret
