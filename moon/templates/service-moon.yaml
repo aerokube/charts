@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  {{- if .Values.moon.service.labels }}
+  labels:
+  {{- range $key, $value := .Values.moon.service.labels }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.moon.service.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.moon.service.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+spec:
+  selector:
+    app: moon
+  ports:
+  - name: "moon"
+    protocol: TCP
+    port: 4444
+  - name: "moon-ui"
+    protocol: TCP
+    port: 8080
+  type: {{ .Values.moon.service.type }}
+  {{- if .Values.moon.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.moon.service.loadBalancerIP }}
+  {{- end }}
+  {{- with .Values.moon.service.externalIPs }}
+  externalIPs:
+  {{- range . }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}

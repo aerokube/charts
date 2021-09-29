@@ -1,0 +1,142 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  namespace: {{ .Release.Namespace }}
+data:
+  service.json: |
+    { {{ $comma := false }}
+      {{- if .Values.moon.browser }}
+      {{- if .Values.moon.browser.annotations }}
+      {{- if $comma }},{{ end }}
+      {{- $comma = true }}
+      "annotations": {{ .Values.moon.browser.annotations | toJson }}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.moon.browser }}
+      {{- if .Values.moon.browser.labels }}
+      {{- if $comma }},{{ end }}
+      {{- $comma = true }}
+      "labels": {{ .Values.moon.browser.labels | toJson }}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.moon.browser }}
+      {{- if .Values.moon.browser.nodeSelector }}
+      {{- if $comma }},{{ end }}
+      {{- $comma = true }}
+      "nodeSelector": {{ .Values.moon.browser.nodeSelector | toJson }}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.moon.config }}
+      {{- if .Values.moon.config.kernelCaps }}
+      {{- if $comma }},{{ end }}
+      {{- $comma = true }}
+      "kernelCaps": {{ .Values.moon.config.kernelCaps | toJson }}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.moon.config.s3 }}
+      {{- if $comma }},{{ end }}
+      {{- $comma = true }}
+      "s3": {
+        {{- if true }}
+        {{- $comma := false }}
+        {{- if .Values.moon.config.s3.endpoint }}
+        {{- if $comma }},{{ end }}
+        {{- $comma = true }}
+        "endpoint": {{ .Values.moon.config.s3.endpoint | quote }}
+        {{- end }}
+        {{- if .Values.moon.config.s3.bucketName }}
+        {{- if $comma }},{{ end }}
+        {{- $comma = true }}
+        "bucketName": {{ .Values.moon.config.s3.bucketName | quote }}
+        {{- end }}
+        {{- if .Values.moon.config.s3.version }}
+        {{- if $comma }},{{ end }}
+        {{- $comma = true }}
+        "version": {{ .Values.moon.config.s3.version | quote }}
+        {{- end }}
+        {{- if .Values.moon.config.s3.keyPattern }}
+        {{- if $comma }},{{ end }}
+        {{- $comma = true }}
+        "keyPattern": {{ .Values.moon.config.s3.keyPattern | quote }}
+        {{- end }}
+        {{- end }}
+      }
+      {{- end }}
+      {{- if .Values.moon.config.images }}
+      {{- if $comma }},{{ end }}
+      {{- $comma = true }}
+      "images": {
+      {{- if true }}
+      {{- $comma := false }}
+      {{- range $k,$v := .Values.moon.config.images }}
+        {{- if $comma }},{{ end }}
+        {{ $k | quote }}: {
+          {{- $comma = true }}
+          {{- if true }}
+          {{- $comma := false }}
+          {{- if $v.image }}
+          {{- if $comma }},{{ end }}
+          {{- $comma = true }}
+          "image": {{ $v.image | quote }}
+          {{- end }}
+          {{- if $v.resources }}
+          {{- if $comma }},{{ end }}
+          {{- $comma = true }}
+          "resources": {
+            {{- if true }}
+            {{- $comma := false }}
+            {{- if $v.resources.limits }}
+            {{- if $comma }},{{ end }}
+            {{- $comma = true }}
+            "limits": {{ $v.resources.limits | toJson }}
+            {{- end }}
+            {{- if $v.resources.requests }}
+            {{- if $comma }},{{ end }}
+            {{- $comma = true }}
+            "requests": {{ $v.resources.requests | toJson }}
+            {{- end }}
+            {{- end }}
+          }
+          {{- end }}
+          {{- end }}
+        }
+      {{- end }}
+      {{- end }}
+      }
+      {{- end }}
+      {{- if .Values.moon.config.runAs }}
+      {{- if .Values.moon.config.runAs }}
+      {{- if $comma }},{{ end }}
+      {{- $comma = true }}
+      "runAs": {
+        {{- if true }}
+        {{- $comma := false }}
+        {{- if .Values.moon.config.runAs }}
+        {{- if .Values.moon.config.runAs.user }}
+        {{- if $comma }},{{ end }}
+        {{- $comma = true }}
+        "user": {{ .Values.moon.config.runAs.user }}
+        {{- end }}
+        {{- if .Values.moon.config.runAs.group }}
+        {{- if $comma }},{{ end }}
+        {{- $comma = true }}
+        "group": {{ .Values.moon.config.runAs.group }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+      }
+      {{- end }}
+      {{- end }}
+    }
+  {{- if or .Values.moon.mobileDevices .Values.moon.customMobileDevices }}
+  devices.json: |
+    {{- if .Values.moon.customMobileDevices }}
+    {{ .Values.moon.customMobileDevices | toJson }}
+    {{- else }}
+    {{- if .Values.moon.mobileDevices }}
+    {{ .Values.moon.mobileDevices | toJson }}
+    {{- end }}
+    {{- end }}
+  {{- end }}

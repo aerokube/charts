@@ -1,0 +1,237 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.moon.replicas | default 2 }}
+  selector:
+    matchLabels:
+      app: moon
+  template:
+    metadata:
+      labels:
+        app: moon
+    spec:
+      {{- with .Values.moon.securityContext }}
+      securityContext:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.moon.nodeSelector }}
+      nodeSelector:
+        {{- range $key, $value := .Values.moon.nodeSelector }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
+      {{- end }}
+      {{- with .Values.moon.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.moon.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Release.Name }}
+      containers:
+      - name: moon
+        {{- if .Values.moon.image }}
+        image: {{ .Values.moon.image }}
+        {{- else }}
+        image: aerokube/moon:{{ .Chart.AppVersion }}
+        {{- end }}
+        args:
+        - -namespace
+        - {{ .Release.Namespace }}
+        - -license-file
+        - /license/license.key
+        - -service-account-name
+        - {{ .Release.Name }}
+        - -moon-url
+        - http://{{ .Release.Name }}:4444/wd/hub
+        - -domain-name
+        - {{ .Release.Name }}-browsers
+        {{- if .Values.moon.guestUser }}
+        - -guest-user
+        - {{ .Values.moon.guestUser }}
+        {{- end }}
+        {{- if .Values.moon.repository }}
+        {{- if .Values.moon.repository.chromeDevtools }}
+        - -chrome-devtools-repository
+        - {{ .Values.moon.repository.chromeDevtools }}
+        {{- end }}
+        {{- if .Values.moon.repository.cypress }}
+        - -cypress-repository
+        - {{ .Values.moon.repository.cypress }}
+        {{- end }}
+        {{- if .Values.moon.repository.playwright }}
+        - -playwright-repository
+        - {{ .Values.moon.repository.playwright }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.moon.timeouts }}
+        {{- if .Values.moon.timeouts.sessionTimeout }}
+        - -timeout
+        - {{ .Values.moon.timeouts.sessionTimeout }}
+        {{- end }}
+        {{- if .Values.moon.timeouts.sessionAttemptTimeout }}
+        - -session-attempt-timeout
+        - {{ .Values.moon.timeouts.sessionAttemptTimeout }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.moon.enabled.resources }}
+        {{- if .Values.moon.browser }}
+        {{- if .Values.moon.browser.resources }}
+        {{- if .Values.moon.browser.resources.cpu }}
+        {{- if .Values.moon.browser.resources.cpu.limits }}
+        - -cpu-limit
+        - {{ .Values.moon.browser.resources.cpu.limits | quote }}
+        {{- end }}
+        {{- if .Values.moon.browser.resources.cpu.requests }}
+        - -cpu-request
+        - {{ .Values.moon.browser.resources.cpu.requests | quote }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- else }}
+        - -disable-cpu-limits
+        {{- end }}
+        {{- if .Values.moon.enabled.resources }}
+        {{- if .Values.moon.browser }}
+        {{- if .Values.moon.browser.resources }}
+        {{- if .Values.moon.browser.resources.memory }}
+        {{- if .Values.moon.browser.resources.memory.limits }}
+        - -memory-limit
+        - {{ .Values.moon.browser.resources.memory.limits | quote }}
+        {{- end }}
+        {{- if .Values.moon.browser.resources.memory.requests }}
+        - -memory-request
+        - {{ .Values.moon.browser.resources.memory.requests | quote }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- else }}
+        - -disable-memory-limits
+        {{- end }}
+        {{- if .Values.moon.enabled.resources }}
+        {{- if .Values.moon.resources }}
+        resources:
+{{ toYaml .Values.moon.resources | indent 10 }}
+        {{- end }}
+        {{- end }}
+        ports:
+        - containerPort: 4444
+        volumeMounts:
+        - name: quota
+          mountPath: /quota
+          readOnly: true
+        - name: config
+          mountPath: /config
+          readOnly: true
+        - name: credentials
+          mountPath: /credentials
+          readOnly: true
+        - name: users
+          mountPath: /users
+          readOnly: true
+        - name: license-key
+          mountPath: /license
+          readOnly: true
+      - name: moon-api
+        {{- if and .Values.moon.api .Values.moon.api.image }}
+        image: {{ .Values.moon.api.image }}
+        {{- else }}
+        image: aerokube/moon-api:{{ .Chart.AppVersion }}
+        {{- end }}
+        args:
+        - -namespace
+        - {{ .Release.Namespace }}
+        - -license-file
+        - /license/license.key
+        - -listen
+        - ":8888"
+        - -domain-name
+        - {{ .Release.Name }}-browsers
+        {{- if and .Values.moon.api .Values.moon.api.guestUser }}
+        - -guest-user
+        - {{ .Values.moon.api.guestUser }}
+        {{- end }}
+        {{- if .Values.moon.enabled.resources }}
+        {{- if .Values.moon.api }}
+        {{- if .Values.moon.api.resources }}
+        resources:
+{{ toYaml .Values.moon.api.resources | indent 10 }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        ports:
+        - containerPort: 8888
+        volumeMounts:
+        - name: quota
+          mountPath: /quota
+          readOnly: true
+        - name: license-key
+          mountPath: /license
+          readOnly: true
+      - name: moon-ui
+        {{- if and .Values.moon.ui .Values.moon.ui.image }}
+        image: {{ .Values.moon.ui.image }}
+        {{- else }}
+        image: aerokube/selenoid-ui:1.10.3
+        {{- end }}
+        args:
+        - -status-uri
+        - http://localhost:8888
+        - -webdriver-uri
+        - http://localhost:4444
+        {{- if .Values.moon.ui }}
+        {{- if .Values.moon.ui.auth }}
+        {{- if .Values.moon.ui.auth.enabled }}
+        - -users
+        - /users/users.htpasswd
+        {{- end }}
+        {{- end }}
+        {{- if .Values.moon.ui.externalAccess }}
+        - -allowed-origin
+        - "*"
+        {{- end }}
+        {{- end }}
+        {{- if .Values.moon.enabled.resources }}
+        {{- if .Values.moon.ui }}
+        {{- if .Values.moon.ui.resources }}
+        resources:
+{{ toYaml .Values.moon.ui.resources | indent 10 }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        ports:
+        - name: moon-ui
+          containerPort: 8080
+        {{- if .Values.moon.ui }}
+        {{- if .Values.moon.ui.auth }}
+        {{- if .Values.moon.ui.auth.enabled }}
+        volumeMounts:
+          - name: users
+            mountPath: /users
+            readOnly: true
+        {{- end }}
+        {{- end }}
+        {{- end }}
+      volumes:
+      - name: quota
+        configMap:
+          name: {{ .Release.Name }}-quota
+      - name: config
+        configMap:
+          name: {{ .Release.Name }}-config
+      - name: credentials
+        secret:
+          secretName: credentials
+      - name: users
+        secret:
+          secretName: {{ .Release.Name }}-users
+      - name: license-key
+        secret:
+          secretName: {{ .Values.moon.licenseKeySecretName | default "licensekey" }}
