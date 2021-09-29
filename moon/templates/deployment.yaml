@@ -234,4 +234,4 @@ spec:
           secretName: {{ .Release.Name }}-users
       - name: license-key
         secret:
-          secretName: licensekey
+          secretName: {{ .Values.moon.licenseKeySecretName | default "licensekey" }}
