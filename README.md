@@ -17,4 +17,5 @@ We are also building and packing an unstable chart version for every commit. To 
 $ helm repo add aerokube-unstable https://charts.aerokube.com/unstable/
 $ helm repo update
 $ helm search repo aerokube-unstable --devel --versions
+$ helm upgrade --install --devel -n moon moon aerokube-unstable/moon # --devel flag is required
 ```
