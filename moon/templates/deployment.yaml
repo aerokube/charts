@@ -179,7 +179,7 @@ spec:
         {{- if and .Values.moon.ui .Values.moon.ui.image }}
         image: {{ .Values.moon.ui.image }}
         {{- else }}
-        image: aerokube/selenoid-ui:1.10.3
+        image: aerokube/selenoid-ui:1.10.4
         {{- end }}
         args:
         - -status-uri
