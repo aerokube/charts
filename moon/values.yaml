@@ -782,6 +782,9 @@ moon:
       chrome:
         default: "94.0"
         versions:
+          "95.0":
+            image: quay.io/browsers/chrome:95.0
+            port: "4444"
           "94.0":
             image: quay.io/browsers/chrome:94.0
             port: "4444"
