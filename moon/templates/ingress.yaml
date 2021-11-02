@@ -23,10 +23,41 @@ spec:
       {{- $releaseName := .Release.Name }}
       {{- range $v := .Values.moon.ingress.paths }}
       - path: {{ $v.path | quote }}
-        pathType: Prefix
+        pathType: {{ $v.type | default "Prefix" }}
         backend:
           service:
             name: {{ $releaseName }}
+            port:
+              number: {{ $v.port }}
+      {{- end }}
+{{- end }}
+{{- range .Values.moon.separateIngresses }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{- range $key, $value := .annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  name: {{ $.Release.Name }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  ingressClassName: {{ .ingressClassName }}
+{{- if .tls }}
+  tls:
+{{ toYaml .tls | nindent 4 }}
+{{- end }}
+  rules:
+  - host: {{ .host }}
+    http:
+      paths:
+      {{- range $v := .paths }}
+      - path: {{ $v.path | quote }}
+        pathType: {{ $v.type | default "Prefix" }}
+        backend:
+          service:
+            name: {{ $.Release.Name }}
             port:
               number: {{ $v.port }}
       {{- end }}

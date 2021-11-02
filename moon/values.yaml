@@ -200,6 +200,16 @@ moon:
     - path: /mobile
       port: 4444
 
+  separateIngresses: []
+#  - name: wd-hub-session
+#    annotations: {}
+#    ingressClassName: nginx
+#    host: moon.aerokube.local
+#    tls: []
+#    paths:
+#    - path: /wd/hub/session/
+#      port: 4444
+
   ##
   ## Moon configuration.
   ##
