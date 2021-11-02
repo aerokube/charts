@@ -58,6 +58,11 @@ moon:
 #           - e2e-az1
 #           - e2e-az2
 
+#  ## If specified, the pod's priorityClassName.
+#  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#priorityclass
+#  ##
+#  priorityClassName: default
+
   ## If specified, the pod's tolerations.
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
