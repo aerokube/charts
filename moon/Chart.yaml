@@ -3,3 +3,4 @@ name: moon
 version: 1.0.7
 appVersion: 1.9.1
 description: Moon Helm chart
+icon: https://aerokube.com/img/aerokube_logo.svg
