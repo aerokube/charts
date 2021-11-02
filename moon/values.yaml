@@ -183,9 +183,8 @@ moon:
     paths:
     - path: /
       port: 8080
-    - path: /wd/hub/session
+    - path: /wd/hub
       port: 4444
-      type: Exact
     - path: /cypress
       port: 4444
     - path: /playwright
@@ -202,7 +201,7 @@ moon:
       port: 4444
 
   separateIngresses: []
-#  - name: wd-hub
+#  - name: wd-hub-session
 #    annotations: {}
 #    ingressClassName: nginx
 #    host: moon.aerokube.local
