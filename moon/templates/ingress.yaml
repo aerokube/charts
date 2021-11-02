@@ -23,7 +23,7 @@ spec:
       {{- $releaseName := .Release.Name }}
       {{- range $v := .Values.moon.ingress.paths }}
       - path: {{ $v.path | quote }}
-        pathType: {{ $v.path | default "Prefix" }}
+        pathType: {{ $v.type | default "Prefix" }}
         backend:
           service:
             name: {{ $releaseName }}
@@ -54,7 +54,7 @@ spec:
       paths:
       {{- range $v := .paths }}
       - path: {{ $v.path | quote }}
-        pathType: {{ $v.path | default "Prefix" }}
+        pathType: {{ $v.type | default "Prefix" }}
         backend:
           service:
             name: {{ $.Release.Name }}

@@ -185,7 +185,7 @@ moon:
       port: 8080
     - path: /wd/hub/session
       port: 4444
-      pathType: Exact
+      type: Exact
     - path: /cypress
       port: 4444
     - path: /playwright
