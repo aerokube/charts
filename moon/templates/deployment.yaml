@@ -33,7 +33,9 @@ spec:
         {{ toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ .Release.Name }}
-      priorityClassName: {{ .Values.moon.priorityClassName | default "default" }}
+      {{- if .Values.moon.priorityClassName }}
+      priorityClassName: {{ .Values.moon.priorityClassName }}
+      {{- end }}
       containers:
       - name: moon
         {{- if .Values.moon.image }}
