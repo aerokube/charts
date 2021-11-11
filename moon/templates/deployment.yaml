@@ -186,9 +186,9 @@ spec:
         {{- end }}
         args:
         - -status-uri
-        - http://localhost:8888
+        - http://127.0.0.1:8888
         - -webdriver-uri
-        - http://localhost:4444
+        - http://127.0.0.1:4444
         {{- if .Values.moon.ui }}
         {{- if .Values.moon.ui.auth }}
         {{- if .Values.moon.ui.auth.enabled }}
