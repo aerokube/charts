@@ -12,7 +12,6 @@ rules:
   - pods/log
   - configmaps
   - secrets
-  - resourcequotas
   verbs:
   - get
   - watch
