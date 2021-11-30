@@ -9,7 +9,7 @@ To use a stable chart version:
 $ helm repo add aerokube https://charts.aerokube.com/
 $ helm repo update
 $ helm search repo aerokube
-$ helm upgrade --install --set=moon.enabled.resources=false service.externalIPs[0]=$(minikube ip) -n moon moon aerokube/moon
+$ helm upgrade --install --set=moon.enabled.resources=false,service.externalIPs[0]=$(minikube ip) -n moon moon aerokube/moon
 ```
 
 We are also building and packing an unstable chart version for every commit. To access these charts:
