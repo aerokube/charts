@@ -175,6 +175,9 @@ spec:
         - name: quota
           mountPath: /quota
           readOnly: true
+        - name: users
+          mountPath: /users
+          readOnly: true
         - name: license-key
           mountPath: /license
           readOnly: true
