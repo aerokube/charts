@@ -327,49 +327,7 @@ moon:
 #          limits:
 #            cpu: "1"
 #            memory: 1024Mi
-#
-#      ##
-#      ## Service container for headed cypress browser mode.
-#      ##
-#      x-server:
-#
-#        ##
-#        ## Override default image.
-#        ##
-#        image: aerokube/aerokube/x-server:1.7.0
-#
-#        ##
-#        ## Override default resources.
-#        ##
-#        resources:
-#          requests:
-#            cpu: "0.25"
-#            memory: 128Mi
-#          limits:
-#            cpu: "0.5"
-#            memory: 128Mi
-#
-#      ##
-#      ## Service container to enable vnc for cypress browser.
-#      ##
-#      vnc-server:
-#
-#        ##
-#        ## Override default image.
-#        ##
-#        image: aerokube/vnc-server:1.7.0
-#
-#        ##
-#        ## Override default resources.
-#        ##
-#        resources:
-#          requests:
-#            cpu: "0.25"
-#            memory: 128Mi
-#          limits:
-#            cpu: "0.5"
-#            memory: 128Mi
-#
+
 #  ##
 #  ## Browser pod configuration.
 #  ##
