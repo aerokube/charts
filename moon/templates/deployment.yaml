@@ -52,6 +52,8 @@ spec:
         - {{ .Release.Name }}
         - -moon-url
         - http://{{ .Release.Name }}:4444/wd/hub
+        - -domain-name
+        - {{ .Release.Name }}-browsers
         {{- if .Values.moon.guestUser }}
         - -guest-user
         - {{ .Values.moon.guestUser }}
@@ -153,6 +155,8 @@ spec:
         - /license/license.key
         - -listen
         - ":8888"
+        - -domain-name
+        - {{ .Release.Name }}-browsers
         {{- if and .Values.moon.api .Values.moon.api.guestUser }}
         - -guest-user
         - {{ .Values.moon.api.guestUser }}
@@ -170,9 +174,6 @@ spec:
         volumeMounts:
         - name: quota
           mountPath: /quota
-          readOnly: true
-        - name: users
-          mountPath: /users
           readOnly: true
         - name: license-key
           mountPath: /license
