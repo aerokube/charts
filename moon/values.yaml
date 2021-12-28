@@ -820,8 +820,11 @@ moon:
             port: "4444"
             path: "/wd/hub"
       chrome:
-        default: "95.0"
+        default: "96.0"
         versions:
+          "96.0":
+            image: quay.io/browsers/chrome:96.0
+            port: "4444"
           "95.0":
             image: quay.io/browsers/chrome:95.0
             port: "4444"
