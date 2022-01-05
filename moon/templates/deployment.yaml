@@ -9,6 +9,11 @@ spec:
   selector:
     matchLabels:
       app: moon
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.moon.rollingUpdate.maxSurge | default 1 }}
+      maxUnavailable: {{ .Values.moon.rollingUpdate.maxUnavailable | default 1 }}
+    type: RollingUpdate
   template:
     metadata:
       labels:
