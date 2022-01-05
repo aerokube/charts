@@ -13,11 +13,11 @@ moon:
 
 #  ##
 #  ## Optional fields that specifies the maximum number of pods that can be created over the desired number of pods
-#  ## and that can be unavailable during the update
+#  ## and that can be unavailable during the update. You can use both int and percent values.
 #  ##
   rollingUpdate: {}
 #    maxSurge: 25%
-#    maxUnavailable: 2
+#    maxUnavailable: 25%
 
 #  ##
 #  ## The value of the moon sessions limit, will be ignored if resourcequotacontrol == true
