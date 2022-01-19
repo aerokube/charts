@@ -1,0 +1,32 @@
+name: release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release-chart:
+    runs-on: ubuntu-latest
+    if: github.repository == 'aerokube/charts'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Test
+        run: ci/test.sh
+
+      - name: Prepare release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
+
+      - name: Build
+        run: ci/build.sh $RELEASE_VERSION
+
+      - name: Configure S3 credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.S3_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.S3_SECRET_KEY }}
+          aws-region: ${{ secrets.S3_REGION }}
+
+      - name: Send output to S3 bucket
+        working-directory: ./output
+        run: aws s3 cp . --endpoint=${{ secrets.S3_ENDPOINT }}  s3://${{ secrets.S3_BUCKET_NAME }} --recursive --acl public-read
