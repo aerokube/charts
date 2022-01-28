@@ -123,6 +123,13 @@ spec:
         {{- else }}
         - -disable-memory-limits
         {{- end }}
+        {{- if .Values.moon.env }}
+        env:
+        {{- range $key, $value := .Values.moon.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.moon.enabled.resources }}
         {{- if .Values.moon.resources }}
         resources:
@@ -168,6 +175,13 @@ spec:
         {{- end }}
         {{- if .Values.moon.enabled.resources }}
         {{- if .Values.moon.api }}
+        {{- if .Values.moon.api.env }}
+        env:
+        {{- range $key, $value := .Values.moon.api.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.moon.api.resources }}
         resources:
 {{ toYaml .Values.moon.api.resources | indent 10 }}
@@ -211,6 +225,13 @@ spec:
         {{- end }}
         {{- if .Values.moon.enabled.resources }}
         {{- if .Values.moon.ui }}
+        {{- if .Values.moon.ui.env }}
+        env:
+        {{- range $key, $value := .Values.moon.ui.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.moon.ui.resources }}
         resources:
 {{ toYaml .Values.moon.ui.resources | indent 10 }}

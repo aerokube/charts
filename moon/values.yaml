@@ -90,6 +90,11 @@ moon:
 #  ##
 #  replicas: 2
 
+#  ##
+#  ## Environment variables passed to moon container.
+#  ##
+#  env: {}
+
   ##
   ## Resources assigned to moon container.
   ##
@@ -139,6 +144,12 @@ moon:
       requests:
         cpu: "0.05"
         memory: 64Mi
+
+#    ##
+#    ## Environment variables passed to moon-api container.
+#    ##
+#    env: {}
+
 #    ##
 #    ## Override moon-api image
 #    ##
@@ -160,6 +171,11 @@ moon:
       requests:
         cpu: "0.05"
         memory: 64Mi
+#    ##
+#    ## Environment variables passed to moon-ui container.
+#    ##
+#    env: {}
+
 #    ##
 #    ## Override moon-ui image
 #    ##
