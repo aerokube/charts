@@ -1,0 +1,12 @@
+{{- template "check.configs" . }}
+
+{{- $releaseNamespace := .Release.Namespace }}
+{{- range $name, $browser := .Values.browsers }}
+---
+apiVersion: moon.aerokube.com/v1
+kind: BrowserSet
+metadata:
+  name: {{ $name }}
+  namespace: {{ $releaseNamespace }}
+spec: {{- $browser | toYaml | nindent 2 }}
+{{- end }}

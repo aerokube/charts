@@ -1,0 +1,293 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: configs.moon.aerokube.com
+spec:
+  group: moon.aerokube.com
+  names:
+    kind: Config
+    listKind: ConfigList
+    plural: configs
+    singular: config
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              additionalTrustedCAs:
+                type: string
+              containers:
+                properties:
+                  browser:
+                    default: {}
+                    properties:
+                      repository:
+                        type: string
+                      resources:
+                        default: {}
+                        properties:
+                          limits:
+                            additionalProperties:
+                              anyOf:
+                              - type: integer
+                              - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 1000m
+                              memory: 2Gi
+                            type: object
+                          requests:
+                            additionalProperties:
+                              anyOf:
+                              - type: integer
+                              - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 500m
+                              memory: 2Gi
+                            type: object
+                        type: object
+                      version:
+                        type: string
+                    type: object
+                  defender:
+                    properties:
+                      repository:
+                        default: aerokube/defender
+                        type: string
+                      resources:
+                        default: {}
+                        properties:
+                          limits:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 250m
+                              memory: 128Mi
+                            type: object
+                          requests:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 100m
+                              memory: 128Mi
+                            type: object
+                        type: object
+                      version:
+                        type: string
+                    type: object
+                  x-server:
+                    properties:
+                      repository:
+                        default: aerokube/x-server
+                        type: string
+                      resources:
+                        default: {}
+                        properties:
+                          limits:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 250m
+                              memory: 128Mi
+                            type: object
+                          requests:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 100m
+                              memory: 128Mi
+                            type: object
+                        type: object
+                      version:
+                        type: string
+                    type: object
+                  vnc-server:
+                    properties:
+                      repository:
+                        default: aerokube/vnc-server
+                        type: string
+                      resources:
+                        default: {}
+                        properties:
+                          limits:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 250m
+                              memory: 128Mi
+                            type: object
+                          requests:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 100m
+                              memory: 128Mi
+                            type: object
+                        type: object
+                      version:
+                        type: string
+                    type: object
+                  video-recorder:
+                    properties:
+                      repository:
+                        default: aerokube/video-recorder
+                        type: string
+                      resources:
+                        default: {}
+                        properties:
+                          limits:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 1000m
+                              memory: 2Gi
+                            type: object
+                          requests:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 250m
+                              memory: 2Gi
+                            type: object
+                        type: object
+                      version:
+                        type: string
+                    type: object
+                  ca-certs:
+                    properties:
+                      repository:
+                        default: aerokube/ca-certs
+                        type: string
+                      resources:
+                        default: {}
+                        properties:
+                          limits:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 200m
+                              memory: 32Mi
+                            type: object
+                          requests:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 100m
+                              memory: 32Mi
+                            type: object
+                        type: object
+                      version:
+                        type: string
+                    type: object
+                type: object
+              group:
+                default: {}
+                properties:
+                  id:
+                    default: 4096
+                    format: int64
+                    type: integer
+                  name:
+                    default: user
+                    type: string
+                    pattern: ^[a-z_][a-z0-9_-]{0,31}\${0,1}$
+                type: object
+              serviceAccountName:
+                type: string
+                pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                default: default
+              sessionTimeout:
+                type: string
+                pattern: ^[0-9][0-9]*[smh]$
+                default: 5m
+              storage:
+                default: {}
+                properties:
+                  accessKey:
+                    type: string
+                    default: ''
+                  bucket:
+                    type: string
+                    default: ''
+                  endpoint:
+                    type: string
+                    default: ''
+                  filename:
+                    type: string
+                    default: ''
+                  pattern:
+                    type: string
+                    default: ''
+                  secretKey:
+                    type: string
+                    default: ''
+                type: object
+              user:
+                default: {}
+                properties:
+                  id:
+                    format: int64
+                    type: integer
+                    default: 4096
+                  name:
+                    type: string
+                    pattern: ^[a-z_][a-z0-9_-]{0,31}\${0,1}$
+                    default: user
+                type: object
+            type: object
+        type: object
+    served: true
+    storage: true

@@ -1,0 +1,143 @@
+ingress:
+  host:
+  tlsCert:
+  tlsKey:
+  proxyConnectTimeout:
+  proxySendTimeout:
+  proxyReadTimeout:
+  proxyBodySize:
+
+deployment:
+  replicas:
+  terminationGracePeriodSeconds:
+
+  moonRepo:
+  moonTag:
+  moonCPULimit:
+  moonCPURequest:
+  moonMemoryLimit:
+  moonMemoryRequest:
+
+  moonConfRepo:
+  moonConfTag:
+  moonConfCPULimit:
+  moonConfCPURequest:
+  moonConfMemoryLimit:
+  moonConfMemoryRequest:
+
+  moonUIRepo:
+  moonUITag:
+  moonUICPULimit:
+  moonUICPURequest:
+  moonUIMemoryLimit:
+  moonUIMemoryRequest:
+
+configs:
+  default:
+    serviceAccountName: default
+    sessionTimeout: 5m
+    user:
+      id: 4096
+      name: user
+    group:
+      id: 4096
+      name: user
+    containers:
+      browser:
+        resources:
+          limits:
+            cpu: "1"
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 2Gi
+      ca-certs:
+        repository: aerokube/ca-certs
+        resources:
+          limits:
+            cpu: 200m
+            memory: 32Mi
+          requests:
+            cpu: 100m
+            memory: 32Mi
+      defender:
+        repository: aerokube/defender
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      video-recorder:
+        repository: aerokube/video-recorder
+        resources:
+          limits:
+            cpu: "1"
+            memory: 2Gi
+          requests:
+            cpu: 250m
+            memory: 2Gi
+      vnc-server:
+        repository: aerokube/vnc-server
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      x-server:
+        repository: aerokube/x-server
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+    storage:
+      accessKey: ""
+      bucket: ""
+      endpoint: ""
+      filename: ""
+      pattern: ""
+      secretKey: ""
+
+browsers:
+  default:
+    selenium:
+      MicrosoftEdge:
+        repository: quay.io/browser/microsoft-edge-stable
+      chrome:
+        repository: quay.io/browser/google-chrome-stable
+      firefox:
+        repository: quay.io/browser/firefox-mozilla-build
+      safari:
+        repository: quay.io/browser/firefox-mozilla-build
+    cypress:
+      electron:
+        repository: quay.io/browsers/cypress-electron
+      chromium:
+        repository: quay.io/browsers/cypress-chromium
+      chrome:
+        repository: quay.io/browsers/cypress-chrome
+      firefox:
+        repository: quay.io/browsers/cypress-firefox
+      edge:
+        repository: quay.io/browsers/cypress-edge
+    playwright:
+      chrome:
+        repository: quay.io/playwright/chrome
+      chromium:
+        repository: quay.io/playwright/chromium
+      firefox:
+        repository: quay.io/playwright/firefox
+      webkit:
+        repository: quay.io/playwright/webkit
+    devtools:
+      chrome:
+        repository: quay.io/cdtp/chrome
+quota:
+  moon:
+    namespace: moon
