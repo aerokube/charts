@@ -1,0 +1,142 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ $def := 2 -}}
+    {{- if .Values.deployment -}}
+    {{- .Values.deployment.replicas | default $def -}}
+    {{- else -}}
+    {{- $def -}}
+    {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}
+      terminationGracePeriodSeconds: {{ $def := 360 -}}
+        {{- if .Values.deployment -}}
+        {{- .Values.deployment.terminationGracePeriodSeconds | default $def -}}
+        {{- else -}}
+        {{- $def -}}
+        {{- end }}
+      containers:
+        - name: moon
+          image: {{ $defRepo := "aerokube/moon" -}}
+            {{- $defTag := .Chart.AppVersion -}}
+            {{- if .Values.deployment -}}
+            {{- .Values.deployment.moonRepo | default $defRepo -}}:{{- .Values.deployment.moonTag | default $defTag -}}
+            {{- else -}}
+            {{- $defRepo }}:{{- $defTag -}}
+            {{- end }}
+          resources:
+            limits:
+              cpu: {{ $def := "0.5" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonCPULimit | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+              memory: {{ $def := "256Mi" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonMemoryLimit | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+            requests:
+              cpu: {{ $def := "0.2" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonCPURequest | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+              memory: {{ $def := "256Mi" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonMemoryRequest | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+          ports:
+            - containerPort: 4444
+        - name: moon-conf
+          image: {{ $defRepo := "aerokube/moon-conf" -}}
+            {{- $defTag := .Chart.AppVersion -}}
+            {{- if .Values.deployment -}}
+            {{- .Values.deployment.moonConfRepo | default $defRepo -}}:{{- .Values.deployment.moonConfTag | default $defTag -}}
+            {{- else -}}
+            {{- $defRepo }}:{{- $defTag -}}
+            {{- end }}
+          resources:
+            limits:
+              cpu: {{ $def := "0.25" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonConfCPULimit | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+              memory: {{ $def := "128Mi" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonConfMemoryLimit | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+            requests:
+              cpu: {{ $def := "0.05" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonConfCPURequest | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+              memory: {{ $def := "128Mi" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonConfMemoryRequest | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+        - name: moon-ui
+          image: {{ $defRepo := "aerokube/selenoid-ui" -}}
+            {{- $defTag := .Chart.AppVersion -}}
+            {{- if .Values.deployment -}}
+            {{- .Values.deployment.moonConfRepo | default $defRepo -}}:{{- .Values.deployment.moonConfTag | default $defTag -}}
+            {{- else -}}
+            {{- $defRepo }}:{{- $defTag -}}
+            {{- end }}
+          args:
+            - -allowed-origin
+            - "*"
+          resources:
+            limits:
+              cpu: {{ $def := "0.25" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonUICPULimit | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+              memory: {{ $def := "64Mi" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonUIMemoryLimit | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+            requests:
+              cpu: {{ $def := "0.05" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonUICPURequest | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+              memory: {{ $def := "64Mi" -}}
+                {{- if .Values.deployment -}}
+                {{- .Values.deployment.moonUIMemoryRequest | default $def | quote -}}
+                {{- else -}}
+                {{- $def -}}
+                {{- end }}
+          ports:
+            - name: selenoid-ui
+              containerPort: 8080

@@ -1,0 +1,12 @@
+{{- template "check.configs" . }}
+
+{{- $releaseNamespace := .Release.Namespace }}
+{{- range $name, $conf := .Values.configs }}
+---
+apiVersion: moon.aerokube.com/v1
+kind: Config
+metadata:
+  name: {{ $name }}
+  namespace: {{ $releaseNamespace }}
+spec: {{- $conf | toYaml | nindent 2 }}
+{{- end }}

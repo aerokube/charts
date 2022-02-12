@@ -1,0 +1,17 @@
+{{- $releaseName := .Release.Namespace }}
+{{- $releaseNamespace := .Release.Namespace }}
+{{- range $name, $quota := .Values.quota }}
+{{- if or (not $quota) (not $quota.namespace) }}
+{{- fail (printf "quota %s namespace is not set" $name) }}
+{{- end }}
+{{- if ne $quota.namespace $releaseNamespace }}
+{{- $createNS := not (lookup "v1" "Namespace" "" $quota.namespace) }}
+{{- if $createNS }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $quota.namespace }}
+{{- end }}
+{{- end }}
+{{- end }}

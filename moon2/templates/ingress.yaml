@@ -1,0 +1,162 @@
+{{- template "check.quota" . }}
+{{- template "check.quota.namespaces" . }}
+{{- template "check.ingress.host" . }}
+
+{{- $httpAuth := true }}
+{{- if eq (len .Values.quota) 1 }}
+  {{- $httpAuth = false }}
+  {{- range $name, $quota := .Values.quota }}
+    {{- if not $quota.password }}
+      {{- if empty (printf "%s" $quota.password) }}
+        {{- $httpAuth = true }}
+      {{- end }}
+    {{- else }}
+      {{- $httpAuth = true }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- if $httpAuth }}
+  {{- $releaseName := .Release.Name }}
+  {{- $releaseNamespace := .Release.Namespace }}
+  {{- range $name, $quota := .Values.quota }}
+    {{- if not $quota.password }}
+      {{- $data := (lookup "v1" "Secret" $quota.namespace $name).data }}
+      {{- if $data }}
+        {{- $_ := set $quota "password" ($data.password | b64dec) }}
+      {{- else }}
+        {{- $_ := set $quota "password" (randAlphaNum 32)  }}
+      {{- end }}
+    {{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $releaseName }}-basic-auth-password
+  namespace: {{ $quota.namespace }}
+data:
+  password: {{ $quota.password | b64enc }}
+  {{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-basic-auth
+  namespace: {{ .Release.Namespace }}
+data:
+  auth: |
+    {{- range $name, $quota := .Values.quota }}
+    {{ htpasswd $name $quota.password | b64enc }}
+    {{- end }}
+{{- end }}
+
+{{- $tlsSecretName := printf "%s-tls-cert" .Release.Name }}
+{{- $enableTLS := false }}
+{{- $tlsSecretExist := (lookup "v1" "Secret" .Release.Namespace $tlsSecretName) }}
+{{- if $tlsSecretExist }}
+  {{- $enableTLS = true }}
+{{- end }}
+
+{{- if and .Values.ingress.tlsCert .Values.ingress.tlsKey }}
+  {{- $enableTLS = true }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $tlsSecretName }}
+  namespace: {{ .Release.Namespace }}
+data:
+  tls.crt: {{ .Values.ingress.tlsCert | b64enc }}
+  tls.key: {{ .Values.ingress.tlsKey | b64enc }}
+{{- end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- if $enableTLS }}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    {{- end }}
+    {{- if $httpAuth }}
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: {{ .Release.Name }}-basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Moon realm'
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Moon-Quota $remote_user;
+      proxy_set_header Authorization $http_authorization;
+    {{- end }}
+    {{- if .Values.ingress.proxyConnectTimeout }}
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: {{ .Values.ingress.proxyConnectTimeout | quote }}
+    {{- end }}
+    {{- if .Values.ingress.proxySendTimeout }}
+    nginx.ingress.kubernetes.io/proxy-send-timeout: {{ .Values.ingress.proxySendTimeout | quote }}
+    {{- end }}
+    {{- if .Values.ingress.proxyReadTimeout }}
+    nginx.ingress.kubernetes.io/proxy-read-timeout: {{ .Values.ingress.proxyReadTimeout | quote }}
+    {{- end }}
+    {{- if .Values.ingress.proxyBodySize }}
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.proxyBodySize | quote }}
+    {{- end }}
+spec:
+  {{- if $enableTLS }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: {{ $tlsSecretName }}
+  {{- end }}
+  ingressClassName: nginx
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /wd/hub
+        pathType: Prefix
+        backend:
+          service:
+            name: moon
+            port:
+              number: 4444
+      - path: /cypress
+        pathType: Prefix
+        backend:
+          service:
+            name: moon
+            port:
+              number: 4444
+      - path: /cypress
+        pathType: Prefix
+        backend:
+          service:
+            name: moon
+            port:
+              number: 4444
+      - path: /playwright
+        pathType: Prefix
+        backend:
+          service:
+            name: moon
+            port:
+              number: 4444
+      - path: /devtools
+        pathType: Prefix
+        backend:
+          service:
+            name: moon
+            port:
+              number: 4444
+      - path: /metrics
+        pathType: Prefix
+        backend:
+          service:
+            name: moon
+            port:
+              number: 4444
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: moon
+            port:
+              number: 8080

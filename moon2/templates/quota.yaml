@@ -1,0 +1,75 @@
+{{- template "check.quota" . }}
+{{- template "check.quota.namespaces" . }}
+{{- template "check.configs" . }}
+{{- template "check.browsers" . }}
+
+{{- $defaultConfigName := "" }}
+{{- if eq (len .Values.configs) 1 }}
+{{- range $name, $_ := .Values.configs }}
+{{- $defaultConfigName = $name }}
+{{- end }}
+{{- end }}
+
+{{- $defaultBrowsersName := "" }}
+{{- if eq (len .Values.browsers) 1 }}
+{{- range $name, $_ := .Values.browsers }}
+{{- $defaultBrowsersName = $name }}
+{{- end }}
+{{- end }}
+
+{{- if not $defaultConfigName }}
+    {{- template "check.quota.configs" . }}
+{{- else }}
+    {{- range $_, $quota := .Values.quota }}
+        {{- if not $quota.config }}
+            {{- $_ := set $quota "config" $defaultConfigName }}
+        {{- end }}
+    {{- end }}
+{{- end }}
+
+{{- if not $defaultBrowsersName }}
+{{- template "check.quota.browsers" . }}
+{{- else }}
+{{- range $_, $quota := .Values.quota }}
+{{- if not $quota.browsers }}
+{{- $_ := set $quota "browsers" $defaultBrowsersName }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- $releaseNamespace := .Release.Namespace }}
+{{- $configs := .Values.configs }}
+{{- $browsers := .Values.browsers }}
+{{- range $name, $quota := .Values.quota }}
+---
+apiVersion: moon.aerokube.com/v1
+kind: Quota
+metadata:
+  name: {{ $name }}
+  namespace: {{ $releaseNamespace }}
+spec:
+  namespace: {{ $quota.namespace }}
+  config: {{ "" -}}
+    {{ $configNotFound := true -}}
+    {{- range $name, $_ := $configs -}}
+      {{- if eq $name $quota.config -}}
+        {{- $configNotFound = false -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $configNotFound -}}
+      {{- fail (printf "quota.%s.config: %q not found in configs" $name $quota.config) -}}
+    {{- end -}}
+    {{- $quota.config }}
+  browsers: {{ "" -}}
+    {{ $browsersetNotFound := true -}}
+    {{- range $name, $_ := $browsers -}}
+      {{- if eq $name $quota.browsers -}}
+        {{- $browsersetNotFound = false -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $browsersetNotFound -}}
+      {{- fail (printf "quota.%s.browsers: %q not found in browsers" $name $quota.config) -}}
+    {{- end -}}
+    {{- $quota.browsers }}
+  devices: {{ $quota.devices | default "default" }}
+{{- end }}
