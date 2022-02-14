@@ -53,3 +53,19 @@ spec:
     storage: true
     subresources:
       status: {}
+    additionalPrinterColumns:
+    - name: Licensee
+      type: string
+      jsonPath: .status.licensee
+    - name: Sessions
+      type: string
+      jsonPath: .status.sessions
+    - name: Expires
+      type: string
+      jsonPath: .status.expires
+    - name: Status
+      type: string
+      jsonPath: .status.status
+    - name: Namespace
+      type: string
+      jsonPath: .spec.namespace

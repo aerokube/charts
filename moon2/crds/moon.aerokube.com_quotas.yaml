@@ -47,3 +47,19 @@ spec:
         type: object
     served: true
     storage: true
+    additionalPrinterColumns:
+    - name: Namespace
+      type: string
+      jsonPath: .spec.namespace
+    - name: Config
+      type: string
+      jsonPath: .spec.config
+    - name: Browsers
+      type: string
+      jsonPath: .spec.browsers
+    - name: Devices
+      type: string
+      jsonPath: .spec.devices
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp
