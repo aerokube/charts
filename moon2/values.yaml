@@ -2,10 +2,10 @@ ingress:
   host:
   tlsCert:
   tlsKey:
-  proxyConnectTimeout:
-  proxySendTimeout:
-  proxyReadTimeout:
-  proxyBodySize:
+  proxyConnectTimeout: 1800
+  proxySendTimeout: 1800
+  proxyReadTimeout: 1800
+  proxyBodySize: 128m
 
 deployment:
   replicas:

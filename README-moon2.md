@@ -61,6 +61,7 @@ configs:
       ca-certs:
         version: dev-latest
       video-recorder:
+        version: dev-latest
 
 browsers:
   default:
