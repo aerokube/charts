@@ -10,6 +10,8 @@ spec:
     listKind: BrowserSetList
     plural: browsersets
     singular: browserset
+    shortNames:
+    - browsers
   scope: Namespaced
   versions:
   - name: v1
