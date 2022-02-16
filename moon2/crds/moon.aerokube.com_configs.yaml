@@ -10,6 +10,8 @@ spec:
     listKind: ConfigList
     plural: configs
     singular: config
+    shortNames:
+    - conf
   scope: Namespaced
   versions:
   - name: v1

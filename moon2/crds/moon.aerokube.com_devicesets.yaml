@@ -10,6 +10,8 @@ spec:
     listKind: DeviceSetList
     plural: devicesets
     singular: deviceset
+    shortNames:
+    - devices
   scope: Namespaced
   versions:
   - name: v1
