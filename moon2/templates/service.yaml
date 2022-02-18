@@ -8,9 +8,9 @@ spec:
   selector:
     app: {{ .Release.Name }}
   ports:
-    - name: "moon"
-      protocol: TCP
-      port: 4444
-    - name: "moon-ui"
-      protocol: TCP
-      port: 8080
+  - name: "moon"
+    protocol: TCP
+    port: 4444
+  - name: "moon-ui"
+    protocol: TCP
+    port: 8080
