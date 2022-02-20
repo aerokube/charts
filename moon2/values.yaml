@@ -114,7 +114,7 @@ browsers:
       firefox:
         repository: quay.io/browser/firefox-mozilla-build
       safari:
-        repository: quay.io/browser/firefox-mozilla-build
+        repository: quay.io/browser/safari
     cypress:
       electron:
         repository: quay.io/browsers/cypress-electron
