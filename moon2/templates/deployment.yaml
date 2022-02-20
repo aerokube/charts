@@ -100,10 +100,10 @@ spec:
                 {{- $def -}}
                 {{- end }}
         - name: moon-ui
-          image: {{ $defRepo := "aerokube/selenoid-ui" -}}
+          image: {{ $defRepo := "aerokube/moon-ui" -}}
             {{- $defTag := .Chart.AppVersion -}}
             {{- if .Values.deployment -}}
-            {{- .Values.deployment.moonConfRepo | default $defRepo -}}:{{- .Values.deployment.moonConfTag | default $defTag -}}
+            {{- .Values.deployment.moonUIRepo | default $defRepo -}}:{{- .Values.deployment.moonUITag | default $defTag -}}
             {{- else -}}
             {{- $defRepo }}:{{- $defTag -}}
             {{- end }}
