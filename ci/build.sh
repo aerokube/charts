@@ -13,7 +13,7 @@ if [ -n "$path" ]; then
 fi
 mkdir -p "$output_dir"
 helm package moon --destination "$output_dir" --version "$version"
-#helm package moon2 --destination "$output_dir" --version "$version"
+helm package moon2 --destination "$output_dir" --version "$version"
 cd "$output_dir"
 wget "$CHARTS_REPO/index.yaml" || true
 helm repo index . --url "$CHARTS_REPO" --merge index.yaml
