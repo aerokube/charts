@@ -134,13 +134,6 @@ spec:
             name: moon
             port:
               number: 4444
-      - path: /cypress
-        pathType: Prefix
-        backend:
-          service:
-            name: moon
-            port:
-              number: 4444
       - path: /playwright
         pathType: Prefix
         backend:
