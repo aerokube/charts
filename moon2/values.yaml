@@ -137,7 +137,7 @@ browsers:
         repository: quay.io/playwright/webkit
     devtools:
       chrome:
-        repository: quay.io/cdtp/chrome
+        repository: quay.io/browser/devtools-google-chrome-stable
 quota:
   moon:
     namespace: moon
