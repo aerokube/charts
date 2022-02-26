@@ -128,13 +128,13 @@ browsers:
         repository: quay.io/browsers/cypress-edge
     playwright:
       chrome:
-        repository: quay.io/playwright/chrome
+        repository: quay.io/browser/playwright-chrome
       chromium:
-        repository: quay.io/playwright/chromium
+        repository: quay.io/browser/playwright-chromium
       firefox:
-        repository: quay.io/playwright/firefox
+        repository: quay.io/browser/playwright-firefox
       webkit:
-        repository: quay.io/playwright/webkit
+        repository: quay.io/browser/playwright-webkit
     devtools:
       chrome:
         repository: quay.io/browser/devtools-google-chrome-stable
