@@ -17,9 +17,9 @@ ingress:
   ##
   ## Ingress proxy timeout settings.
   ##
-  proxyConnectTimeout: 1800
-  proxySendTimeout: 1800
-  proxyReadTimeout: 1800
+  proxyConnectTimeout: 1900
+  proxySendTimeout: 1900
+  proxyReadTimeout: 1900
 
   ##
   ## Maximum request body size.
