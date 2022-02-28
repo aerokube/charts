@@ -28,7 +28,7 @@ spec:
         {{- end }}
       containers:
         - name: moon
-          image: {{ $defRepo := "aerokube/moon" -}}
+          image: {{ $defRepo := "quay.io/aerokube/moon" -}}
             {{- $defTag := .Chart.AppVersion -}}
             {{- if .Values.deployment -}}
             {{- .Values.deployment.moonRepo | default $defRepo -}}:{{- .Values.deployment.moonTag | default $defTag -}}
@@ -65,7 +65,7 @@ spec:
           ports:
             - containerPort: 4444
         - name: moon-conf
-          image: {{ $defRepo := "aerokube/moon-conf" -}}
+          image: {{ $defRepo := "quay.io/aerokube/moon-conf" -}}
             {{- $defTag := .Chart.AppVersion -}}
             {{- if .Values.deployment -}}
             {{- .Values.deployment.moonConfRepo | default $defRepo -}}:{{- .Values.deployment.moonConfTag | default $defTag -}}
@@ -100,7 +100,7 @@ spec:
                 {{- $def -}}
                 {{- end }}
         - name: moon-ui
-          image: {{ $defRepo := "aerokube/moon-ui" -}}
+          image: {{ $defRepo := "quay.io/aerokube/moon-ui" -}}
             {{- $defTag := .Chart.AppVersion -}}
             {{- if .Values.deployment -}}
             {{- .Values.deployment.moonUIRepo | default $defRepo -}}:{{- .Values.deployment.moonUITag | default $defTag -}}

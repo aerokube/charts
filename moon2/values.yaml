@@ -1,38 +1,147 @@
+##
+## Ingress settings. This chart is using Nginx Ingress. By default, Ingress listens only on port 80 (HTTP).
+## Port 443 (HTTPS) is enabled only if TLS certificate and private key are provided in the fields below.
+##
 ingress:
-  host:
+  ##
+  ## Ingress host. Replace this with your domain name.
+  ##
+  host: moon.aerokube.local
+
+  ##
+  ## TLS settings. When provided Ingress switches to HTTPS-only mode.
+  ##
   tlsCert:
   tlsKey:
-  proxyConnectTimeout: 1800
-  proxySendTimeout: 1800
-  proxyReadTimeout: 1800
+
+  ##
+  ## Ingress proxy timeout settings.
+  ##
+  proxyConnectTimeout: 1900
+  proxySendTimeout: 1900
+  proxyReadTimeout: 1900
+
+  ##
+  ## Maximum request body size.
+  ##
   proxyBodySize: 128m
 
+##
+## Moon deployment settings.
+##
 deployment:
+
+  ##
+  ## Total number of Moon pods. Default is 2.
+  ##
   replicas:
+
+  ##
+  ## Moon pods graceful shutdown timeout. Default is 360 seconds.
+  ##
   terminationGracePeriodSeconds:
 
+  ##
+  ## Moon container image repository. Default is quay.io/aerokube/moon.
+  ##
   moonRepo:
+
+  ##
+  ## Moon container image tag. Default equals to chart app version.
+  ##
   moonTag:
+
+  ##
+  ## Moon container CPU limit. Default is 0.5.
+  ##
   moonCPULimit:
+
+  ##
+  ## Moon container CPU request. Default is 0.2.
+  ##
   moonCPURequest:
+
+  ##
+  ## Moon container memory limit. Default is 256Mi.
+  ## We recommend setting the same value for memory request and limit.
+  ##
   moonMemoryLimit:
+
+  ##
+  ## Moon container memory request. Default is 256Mi.
+  ##
   moonMemoryRequest:
 
+  ##
+  ## Moon-conf image repository. Default is quay.io/aerokube/moon-conf.
+  ##
   moonConfRepo:
+
+  ##
+  ## Moon-conf container image tag. Default equals to chart app version.
+  ##
   moonConfTag:
+
+  ##
+  ## Moon-conf container CPU limit. Default is 0.25.
+  ##
   moonConfCPULimit:
+
+  ##
+  ## Moon-conf container CPU request. Default is 0.05.
+  ##
   moonConfCPURequest:
+
+  ##
+  ## Moon-conf container memory limit. Default is 128Mi.
+  ## We recommend setting the same value for memory request and limit.
+  ##
   moonConfMemoryLimit:
+
+  ##
+  ## Moon-conf container memory request. Default is 128Mi.
+  ##
   moonConfMemoryRequest:
 
+  ##
+  ## Moon-ui image repository. Default is quay.io/aerokube/moon-ui.
+  ##
   moonUIRepo:
+
+  ##
+  ## Moon-ui container image tag. Default equals to chart app version.
+  ##
   moonUITag:
+
+  ##
+  ## Moon-ui container CPU limit. Default is 0.25.
+  ##
   moonUICPULimit:
+
+  ##
+  ## Moon-ui container CPU request. Default is 0.05.
+  ##
   moonUICPURequest:
+
+  ##
+  ## Moon-ui container memory limit. Default is 64Mi.
+  ## We recommend setting the same value for memory request and limit.
+  ##
   moonUIMemoryLimit:
+
+  ##
+  ## Moon-ui container memory request. Default is 64Mi.
+  ##
   moonUIMemoryRequest:
 
+##
+## Available configuration objects.
+##
 configs:
+  ##
+  ## Default configuration object. Detailed description of the fields can be found
+  ## in documentation: https://aerokube.com/moon/latest/#configuration-object.
+  ##
   default:
     serviceAccountName: default
     sessionTimeout: 5m
@@ -52,7 +161,7 @@ configs:
             cpu: 500m
             memory: 2Gi
       ca-certs:
-        repository: aerokube/ca-certs
+        repository: quay.io/aerokube/ca-certs
         resources:
           limits:
             cpu: 200m
@@ -61,7 +170,7 @@ configs:
             cpu: 100m
             memory: 32Mi
       defender:
-        repository: aerokube/defender
+        repository: quay.io/aerokube/defender
         resources:
           limits:
             cpu: 250m
@@ -70,7 +179,7 @@ configs:
             cpu: 100m
             memory: 128Mi
       video-recorder:
-        repository: aerokube/video-recorder
+        repository: quay.io/aerokube/video-recorder
         resources:
           limits:
             cpu: "1"
@@ -79,7 +188,7 @@ configs:
             cpu: 250m
             memory: 2Gi
       vnc-server:
-        repository: aerokube/vnc-server
+        repository: quay.io/aerokube/vnc-server
         resources:
           limits:
             cpu: 250m
@@ -88,7 +197,7 @@ configs:
             cpu: 100m
             memory: 128Mi
       x-server:
-        repository: aerokube/x-server
+        repository: quay.io/aerokube/x-server
         resources:
           limits:
             cpu: 250m
@@ -104,7 +213,14 @@ configs:
       pattern: ""
       secretKey: ""
 
+##
+## Available browsers set objects.
+##
 browsers:
+  ##
+  ## Default browsers set object. Detailed description of the fields can be found
+  ## in documentation: https://aerokube.com/moon/latest/#browsers-set.
+  ##
   default:
     selenium:
       MicrosoftEdge:
@@ -138,6 +254,22 @@ browsers:
     devtools:
       chrome:
         repository: quay.io/browser/devtools-google-chrome-stable
+
+##
+## Available quotas. If you need to have multiple quota objects - simply add them below:
+##
+## quota:
+##   moon: null
+##   alfa-team:
+##     namespace: alfa
+##   beta-team:
+##     namespace: beta
+##
 quota:
+  ##
+  ## Default quota. Detailed description of the fields can be found
+  ## in documentation: https://aerokube.com/moon/latest/#quotas. Set it
+  ## to null when having multiple quota objects.
+  ##
   moon:
     namespace: moon
