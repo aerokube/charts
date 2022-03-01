@@ -26,6 +26,11 @@ ingress:
   ##
   proxyBodySize: 128m
 
+  ##
+  ## Set to true in Openshift.
+  ##
+  openshift:
+
 ##
 ## Moon deployment settings.
 ##
