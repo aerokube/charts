@@ -12,7 +12,7 @@ if [ -n "$path" ]; then
     CHARTS_REPO="$CHARTS_REPO$path/"
 fi
 mkdir -p "$output_dir"
-helm package moon --destination "$output_dir" --version "$version"
+helm package moon --destination "$output_dir"
 helm package moon2 --destination "$output_dir" --version "$version"
 cd "$output_dir"
 wget "$CHARTS_REPO/index.yaml" || true

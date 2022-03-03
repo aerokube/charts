@@ -278,3 +278,8 @@ quota:
   ##
   moon:
     namespace: moon
+
+##
+## License key. When empty default free license key is automatically used.
+##
+license:
