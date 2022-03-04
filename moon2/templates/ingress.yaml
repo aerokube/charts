@@ -117,7 +117,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: moon
+            name: {{ .Release.Name }}
             port:
               number: 8080
       {{- if $httpAuth }}
@@ -129,35 +129,35 @@ spec:
       {{- end }}
         backend:
           service:
-            name: moon
+            name: {{ .Release.Name }}
             port:
               number: 4444
       - path: /cypress
         pathType: Prefix
         backend:
           service:
-            name: moon
+            name: {{ .Release.Name }}
             port:
               number: 4444
       - path: /playwright
         pathType: Prefix
         backend:
           service:
-            name: moon
+            name: {{ .Release.Name }}
             port:
               number: 4444
       - path: /devtools
         pathType: Prefix
         backend:
           service:
-            name: moon
+            name: {{ .Release.Name }}
             port:
               number: 4444
       - path: /metrics
         pathType: Prefix
         backend:
           service:
-            name: moon
+            name: {{ .Release.Name }}
             port:
               number: 4444
 {{- if $httpAuth }}
@@ -196,7 +196,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: moon
+            name: {{ .Release.Name }}
             port:
               number: 4444
  {{- end }}
