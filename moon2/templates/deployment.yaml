@@ -35,6 +35,10 @@ spec:
             {{- else -}}
             {{- $defRepo }}:{{- $defTag -}}
             {{- end }}
+          command:
+          - /moon
+          - -moon-url
+          - http://{{ .Release.Name }}.{{ .Release.Namespace }}:4444/wd/hub
           resources:
             limits:
               cpu: {{ $def := "0.5" -}}
