@@ -105,7 +105,7 @@ spec:
                 {{- end }}
         - name: moon-ui
           image: {{ $defRepo := "quay.io/aerokube/moon-ui" -}}
-            {{- $defTag := .Chart.AppVersion -}}
+            {{- $defTag := "2.0.1" -}}
             {{- if .Values.deployment -}}
             {{- .Values.deployment.moonUIRepo | default $defRepo -}}:{{- .Values.deployment.moonUITag | default $defTag -}}
             {{- else -}}
