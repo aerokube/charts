@@ -1,4 +1,29 @@
 ##
+## Custom Ingress settings. Overrides default Nginx Ingress configuration.
+##
+customIngress:
+  enabled: false
+  annotations: {}
+  ingressClassName: nginx
+  host: moon.aerokube.local
+  tls: []
+  #- secretName: moon-tls
+  #  hosts:
+  #  - moon.aerokube.local
+  paths:
+  - path: /
+    port: 8080
+  - path: /wd/hub
+    port: 4444
+  - path: /cypress
+    port: 4444
+  - path: /playwright
+    port: 4444
+  - path: /devtools
+    port: 4444
+  - path: /metrics
+    port: 4444
+##
 ## Ingress settings. This chart is using Nginx Ingress. By default, Ingress listens only on port 80 (HTTP).
 ## Port 443 (HTTPS) is enabled only if TLS certificate and private key are provided in the fields below.
 ##
@@ -138,6 +163,46 @@ deployment:
   ## Moon-ui container memory request. Default is 64Mi.
   ##
   moonUIMemoryRequest:
+
+  ## If specified, the pod's security policies.
+  ## ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+  ##
+  securityContext: {}
+  #  runAsUser: 1000
+
+  ##
+  ## Node Selector for Moon pods
+  ##
+  nodeSelector: {}
+  #  kubernetes.io/os: linux
+
+  ## Assign custom affinity rules to the instance
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+  ##
+  affinity: {}
+  #  nodeAffinity:
+  #    requiredDuringSchedulingIgnoredDuringExecution:
+  #      nodeSelectorTerms:
+  #      - matchExpressions:
+  #        - key: kubernetes.io/e2e-az-name
+  #          operator: In
+  #          values:
+  #          - e2e-az1
+  #          - e2e-az2
+
+  #  ## If specified, the pod's priorityClassName.
+  #  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#priorityclass
+  #  ##
+  # priorityClassName: default
+
+  ## If specified, the pod's tolerations.
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+  #- key: "key"
+  #  operator: "Equal"
+  #  value: "value"
+  #  effect: "NoSchedul
 
 ##
 ## Available configuration objects.

@@ -1,3 +1,36 @@
+{{- if .Values.customIngress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{- range $key, $value := .Values.customIngress.annotations }}
+      {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: {{ .Values.customIngress.ingressClassName }}
+  {{- if .Values.customIngress.tls }}
+  tls:
+  {{ toYaml .Values.customIngress.tls | nindent 4 }}
+  {{- end }}
+  rules:
+  - host: {{ .Values.customIngress.host }}
+    http:
+      paths:
+      {{- $releaseName := .Release.Name }}
+      {{- range $v := .Values.customIngress.paths }}
+      - path: {{ $v.path | quote }}
+        pathType: {{ $v.type | default "Prefix" }}
+        backend:
+          service:
+            name: {{ $releaseName }}
+            port:
+              number: {{ $v.port }}
+      {{- end }}
+{{- else }}
+
 {{- template "check.quota" . }}
 {{- template "check.quota.namespaces" . }}
 {{- template "check.ingress.host" . }}
@@ -200,3 +233,4 @@ spec:
             port:
               number: 4444
  {{- end }}
+{{- end }}
