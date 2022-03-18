@@ -62,6 +62,10 @@ spec:
         - /moon
         - -moon-url
         - http://{{ .Release.Name }}.{{ .Release.Namespace }}:4444/wd/hub
+        {{- if .Values.deployment.moonCallbackURL }}
+        - -callback-url
+        - {{ .Values.deployment.moonCallbackURL }}
+        {{- end }}
         resources:
           limits:
             cpu: {{ $def := "0.5" -}}

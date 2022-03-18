@@ -103,6 +103,11 @@ deployment:
   moonMemoryRequest:
 
   ##
+  ## Moon callback url. In case of using Moon without ingress or with custom ingress as AWS alb.
+  ##
+  moonCallbackURL:
+
+  ##
   ## Moon-conf image repository. Default is quay.io/aerokube/moon-conf.
   ##
   moonConfRepo:
