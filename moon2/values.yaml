@@ -1,4 +1,9 @@
 ##
+## Custom Service account annotations
+##
+serviceAccountAnnotations: {}
+
+##
 ## Custom Ingress settings. Overrides default Nginx Ingress configuration.
 ##
 customIngress:
