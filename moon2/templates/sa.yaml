@@ -4,3 +4,9 @@ kind: ServiceAccount
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
+  {{- if .Values.serviceAccountAnnotations }}
+  annotations:
+  {{- range $key, $value := .Values.serviceAccountAnnotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
