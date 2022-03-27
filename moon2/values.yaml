@@ -309,7 +309,7 @@ browsers:
         default: 99.0.0-0
       opera:
         repository: quay.io/browser/opera-stable
-        default: 98.0.0-0
+        default: 84.0.4316.42-0
       safari:
         repository: quay.io/browser/safari
         default: 15.0-0
