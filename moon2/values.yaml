@@ -344,6 +344,8 @@ browsers:
 ##   moon: null
 ##   alfa-team:
 ##     namespace: alfa
+##     serviceAccountName: custom
+##     serviceAccountAnnotations: {}
 ##   beta-team:
 ##     namespace: beta
 ##
