@@ -4,6 +4,12 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
+  {{- if .Values.serviceLabels }}
+  labels:
+  {{- range $key, $value := .Values.serviceLabels }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
 spec:
   selector:
     app: {{ .Release.Name }}

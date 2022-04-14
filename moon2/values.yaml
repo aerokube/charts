@@ -57,6 +57,16 @@ ingress:
   openshift:
 
 ##
+## Moon service account annotations.
+##
+serviceAccountAnnotations: {}
+
+##
+## Moon service additional labels.
+##
+serviceLabels: {}
+
+##
 ## Moon deployment settings.
 ##
 deployment:
