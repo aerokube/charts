@@ -9,7 +9,9 @@ spec:
     kind: Quota
     listKind: QuotaList
     plural: quotas
-    singular: quota
+    singular: team
+    shortNames:
+    - quota
   scope: Namespaced
   versions:
   - name: v1
