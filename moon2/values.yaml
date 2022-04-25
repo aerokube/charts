@@ -29,7 +29,7 @@ customIngress:
 ##
 ingress:
   ##
-  ## Ingress host. Replace this with your domain name.
+  ## Ingress host. Replace this with your domain name. If empty - no ingress will be created.
   ##
   host: moon.aerokube.local
 

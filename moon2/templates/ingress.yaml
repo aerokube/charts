@@ -7,7 +7,7 @@ metadata:
     {{- range $key, $value := .Values.customIngress.annotations }}
       {{ $key }}: {{ $value | quote }}
     {{- end }}
-  name: {{ .Release.Name }}
+  name: {{ .Release.Name }}-customIngress
   namespace: {{ .Release.Namespace }}
 spec:
   ingressClassName: {{ .Values.customIngress.ingressClassName }}
@@ -100,6 +100,7 @@ data:
   tls.crt: {{ .Values.ingress.tlsCert | b64enc }}
   tls.key: {{ .Values.ingress.tlsKey | b64enc }}
 {{- end }}
+{{- if .Values.ingress.host }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -233,4 +234,5 @@ spec:
             port:
               number: 4444
  {{- end }}
+{{- end }}
 {{- end }}
