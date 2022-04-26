@@ -132,6 +132,9 @@ metadata:
     {{- if .Values.ingress.proxyBodySize }}
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.proxyBodySize | quote }}
     {{- end }}
+    {{- range $key, $value := .Values.ingress.customAnnotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
 spec:
   {{- if $enableTLS }}
   tls:
@@ -212,6 +215,9 @@ metadata:
     {{- end }}
     {{- if .Values.ingress.proxyBodySize }}
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.proxyBodySize | quote }}
+    {{- end }}
+    {{- range $key, $value := .Values.ingress.customAnnotations }}
+    {{ $key }}: {{ $value | quote }}
     {{- end }}
 spec:
   ingressClassName: nginx

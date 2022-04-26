@@ -34,7 +34,8 @@ ingress:
   host: moon.aerokube.local
 
   ##
-  ## TLS settings. When provided Ingress switches to HTTPS-only mode.
+  ## Files with TLS certificate and TLS key. When provided Ingress switches to HTTPS-only mode.
+  ## Set to empty files if you need HTTPS, but do not need to provide key and cert manually(i.g. use cert-manager)
   ##
   tlsCert:
   tlsKey:
@@ -55,6 +56,11 @@ ingress:
   ## Set to true in Openshift.
   ##
   openshift:
+
+  ##
+  ## Add custom annotations to ingress
+  ##
+  customAnnotations: {}
 
 ##
 ## Moon service account annotations.
