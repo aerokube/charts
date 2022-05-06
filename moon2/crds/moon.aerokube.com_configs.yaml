@@ -276,6 +276,19 @@ spec:
                   secretKey:
                     type: string
                     default: ''
+                  secretRef:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                      accessKey:
+                        type: string
+                      secretKey:
+                        type: string
+                    required:
+                    - name
+                    default: null
                 type: object
               user:
                 default: {}

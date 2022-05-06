@@ -778,6 +778,8 @@ spec:
                             type: string
                           type: array
                       type: object
+                    dnsPolicy:
+                      type: string
                     env:
                       items:
                         properties:
@@ -1300,6 +1302,8 @@ spec:
                             type: string
                           type: array
                       type: object
+                    dnsPolicy:
+                      type: string
                     env:
                       items:
                         properties:
@@ -1830,6 +1834,8 @@ spec:
                             type: string
                           type: array
                       type: object
+                    dnsPolicy:
+                      type: string
                     env:
                       items:
                         properties:
@@ -2352,6 +2358,8 @@ spec:
                             type: string
                           type: array
                       type: object
+                    dnsPolicy:
+                      type: string
                     env:
                       items:
                         properties:
