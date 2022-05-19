@@ -68,9 +68,9 @@ ingress:
 serviceAccountAnnotations: {}
 
 ##
-## Moon service additional labels.
+## Moon service annotations.
 ##
-serviceLabels: {}
+serviceAnnotations: {}
 
 ##
 ## Moon deployment settings.
