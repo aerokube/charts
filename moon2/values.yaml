@@ -282,7 +282,7 @@ configs:
         repository: quay.io/aerokube/vnc-server
         resources:
           limits:
-            cpu: 250m
+            cpu: 200m
             memory: 128Mi
           requests:
             cpu: 100m
@@ -291,7 +291,7 @@ configs:
         repository: quay.io/aerokube/x-server
         resources:
           limits:
-            cpu: 250m
+            cpu: 200m
             memory: 128Mi
           requests:
             cpu: 100m
