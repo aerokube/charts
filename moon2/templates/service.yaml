@@ -10,6 +10,12 @@ metadata:
     {{ $key }}: {{ $value | quote }}
   {{- end }}
   {{- end }}
+  {{- if .Values.serviceLabels }}
+  labels:
+  {{- range $key, $value := .Values.serviceLabels }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
 spec:
   selector:
     app: {{ .Release.Name }}

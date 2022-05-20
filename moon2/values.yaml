@@ -73,6 +73,11 @@ serviceAccountAnnotations: {}
 serviceAnnotations: {}
 
 ##
+## Moon service labels.
+##
+serviceLabels: {}
+
+##
 ## Moon deployment settings.
 ##
 deployment:
