@@ -1,0 +1,43 @@
+{{- template "check.tagformat" . }}
+{{- template "check.taglist" . }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: {{ .Values.schedule | quote }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 0
+      template:
+        spec:
+          serviceAccountName: {{ .Release.Name }}
+          containers:
+          - name: browser-ops
+            image: quay.io/aerokube/browser-ops:{{ .Chart.AppVersion }}
+            args:
+            {{- range .Values.browsersets }}
+            - {{ . }}
+            {{- end }}
+            env:
+            {{- if .Values.browserImageTagFormat }}
+            - name: TAGS
+              value: {{ .Values.browserImageTagFormat }}
+            {{- end }}
+            {{- if .Values.browserImageVersions }}
+            - name: LIST
+            {{- if eq "\"all\"" (.Values.browserImageVersions | quote) }}
+              value: "0"
+            {{- else }}
+            {{- if eq "\"recent\"" (.Values.browserImageVersions | quote) }}
+              value: "-1"
+            {{- else }}
+              value: {{ .Values.browserImageVersions | quote }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
+          restartPolicy: Never
+
