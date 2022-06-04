@@ -66,6 +66,9 @@ spec:
         - -callback-url
         - {{ .Values.deployment.moonCallbackURL }}
         {{- end }}
+        {{- range $v := .Values.deployment.moonAdditionalArgs }}
+        - {{ $v }}
+        {{- end }}
         resources:
           limits:
             cpu: {{ $def := "0.5" -}}

@@ -129,6 +129,11 @@ deployment:
   moonCallbackURL:
 
   ##
+  ## Moon additional arguments. Use it in case you need to pass some parameters to moon binary
+  ##
+  moonAdditionalArgs: []
+
+  ##
   ## Moon-conf image repository. Default is quay.io/aerokube/moon-conf.
   ##
   moonConfRepo:
