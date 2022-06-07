@@ -298,7 +298,7 @@ configs:
             cpu: 100m
             memory: 128Mi
       x-server:
-        repository: quay.io/aerokube/x-server
+        repository: quay.io/aerokube/xvfb-server
         resources:
           limits:
             cpu: 200m
