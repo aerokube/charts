@@ -29,6 +29,11 @@ customIngress:
 ##
 ingress:
   ##
+  ## To be able to disable ingress.
+  ##
+  enabled: true
+
+  ##
   ## Ingress host. Replace this with your domain name.
   ##
   host: moon.aerokube.local
@@ -76,6 +81,25 @@ serviceAnnotations: {}
 ## Moon service labels.
 ##
 serviceLabels: {}
+
+##
+## Moon service to customize without ingress.
+##
+service:
+  ##
+  ## Service type eg NodePort, LoadBalancer.
+  ##
+  type:
+
+  ##
+  ## Load balanser IP address.
+  ##
+  loadBalancerIP:
+
+  ##
+  ## List of external IP addresses.
+  ##
+  externalIPs: []
 
 ##
 ## Moon deployment settings.

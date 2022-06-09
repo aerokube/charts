@@ -30,7 +30,7 @@ spec:
               number: {{ $v.port }}
       {{- end }}
 {{- else }}
-
+{{- if .Values.ingress.enabled }}
 {{- template "check.quota" . }}
 {{- template "check.quota.namespaces" . }}
 {{- template "check.ingress.host" . }}
@@ -238,5 +238,6 @@ spec:
             name: {{ .Release.Name }}
             port:
               number: 4444
- {{- end }}
+{{- end }}
+{{- end }}
 {{- end }}
