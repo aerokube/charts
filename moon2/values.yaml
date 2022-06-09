@@ -388,3 +388,8 @@ quota:
 ## License key. When empty default free license key is automatically used.
 ##
 license:
+
+##
+## License key secret name. License data will loaded from secret, overrides license field.
+##
+licenseSecretName:
