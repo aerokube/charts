@@ -11,7 +11,7 @@ browsersets:
 ##   (102.0 vs 102.0.1245.30-1)
 ##
 
-browserImageTagFormat: long
+browserImageTagFormat: short
 
 ##
 ## Browser versions appeared in web interface:  all | recent | positive number
