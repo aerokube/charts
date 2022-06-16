@@ -31,13 +31,10 @@ spec:
             - name: LIST
             {{- if eq "\"all\"" (.Values.browserImageVersions | quote) }}
               value: "0"
-            {{- else }}
-            {{- if eq "\"recent\"" (.Values.browserImageVersions | quote) }}
+            {{- else if eq "\"recent\"" (.Values.browserImageVersions | quote) }}
               value: "-1"
             {{- else }}
               value: {{ .Values.browserImageVersions | quote }}
             {{- end }}
             {{- end }}
-            {{- end }}
           restartPolicy: Never
-
