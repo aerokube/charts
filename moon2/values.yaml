@@ -350,13 +350,13 @@ browsers:
     selenium:
       MicrosoftEdge:
         repository: quay.io/browser/microsoft-edge-stable
-        default: 101.0.1210.53-1
+        default: 102.0.1245.44-1
       chrome:
         repository: quay.io/browser/google-chrome-stable
-        default: 101.0.4951.64-1
+        default: 102.0.5005.115-1
       firefox:
         repository: quay.io/browser/firefox-mozilla-build
-        default: 100.0.0-1
+        default: 101.0.1-1
       opera:
         repository: quay.io/browser/opera-stable
         default: 87.0.4390.25-1
