@@ -35,21 +35,9 @@ spec:
 {{- template "check.quota.namespaces" . }}
 {{- template "check.ingress.host" . }}
 
-{{- $httpAuth := true }}
-{{- if eq (len .Values.quota) 1 }}
-  {{- $httpAuth = false }}
-  {{- range $name, $quota := .Values.quota }}
-    {{- if not $quota.password }}
-      {{- if empty (printf "%s" $quota.password) }}
-        {{- $httpAuth = true }}
-      {{- end }}
-    {{- else }}
-      {{- $httpAuth = true }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{- $basicAuth := include "basic.auth" . }}
 
-{{- if $httpAuth }}
+{{- if $basicAuth }}
   {{- range $name, $quota := .Values.quota }}
     {{- if not $quota.password }}
       {{- $data := (lookup "v1" "Secret" $quota.namespace (printf "%s-basic-auth-password" $name)).data }}
@@ -110,13 +98,13 @@ metadata:
     {{- if $enableTLS }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     {{- end }}
-    {{- if $httpAuth }}
+    {{- if $basicAuth }}
+    {{- if eq $basicAuth "kubernetes" }}
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/auth-secret: {{ .Release.Name }}-basic-auth
     nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Moon realm'
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header X-Moon-Quota $remote_user;
-    {{- end }}
     {{- if .Values.ingress.proxyConnectTimeout }}
     nginx.ingress.kubernetes.io/proxy-connect-timeout: {{ .Values.ingress.proxyConnectTimeout | quote }}
     {{- end }}
@@ -125,12 +113,13 @@ metadata:
     {{- end }}
     {{- if .Values.ingress.proxyReadTimeout }}
     nginx.ingress.kubernetes.io/proxy-read-timeout: {{ .Values.ingress.proxyReadTimeout | quote }}
-    {{- if .Values.ingress.openshift }}
-    haproxy.router.openshift.io/timeout: {{ (printf "%ds" (.Values.ingress.proxyReadTimeout | int)) | quote }}
-    {{- end }}
     {{- end }}
     {{- if .Values.ingress.proxyBodySize }}
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.proxyBodySize | quote }}
+    {{- end }}
+    {{- else }}
+    haproxy.router.openshift.io/timeout: {{ (printf "%ds" (.Values.ingress.proxyReadTimeout | int)) | quote }}
+    {{- end }}
     {{- end }}
     {{- range $key, $value := .Values.ingress.customAnnotations }}
     {{ $key }}: {{ $value | quote }}
@@ -156,7 +145,7 @@ spec:
             name: {{ .Release.Name }}
             port:
               number: 8080
-      {{- if $httpAuth }}
+      {{- if $basicAuth }}
       - path: /wd/hub/session
         pathType: Exact
       {{- else }}
@@ -196,7 +185,7 @@ spec:
             name: {{ .Release.Name }}
             port:
               number: 4444
-{{- if $httpAuth }}
+{{- if $basicAuth }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -204,6 +193,7 @@ metadata:
   name: {{ .Release.Name }}-wd-hub-session
   namespace: {{ .Release.Namespace }}
   annotations:
+    {{- if eq $basicAuth "kubernetes" }}
     {{- if .Values.ingress.proxyConnectTimeout }}
     nginx.ingress.kubernetes.io/proxy-connect-timeout: {{ .Values.ingress.proxyConnectTimeout | quote }}
     {{- end }}
@@ -216,11 +206,16 @@ metadata:
     {{- if .Values.ingress.proxyBodySize }}
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.proxyBodySize | quote }}
     {{- end }}
+    {{- else }}
+    haproxy.router.openshift.io/timeout: {{ (printf "%ds" (.Values.ingress.proxyReadTimeout | int)) | quote }}
+    {{- end }}
     {{- range $key, $value := .Values.ingress.customAnnotations }}
     {{ $key }}: {{ $value | quote }}
     {{- end }}
 spec:
+  {{- if not .Values.ingress.openshift }}
   ingressClassName: nginx
+  {{- end }}
   {{- if $enableTLS }}
   tls:
   - hosts:

@@ -49,7 +49,52 @@ spec:
       priorityClassName: {{ .Values.deployment.priorityClassName }}
       {{- end }}
       {{- end }}
+      {{- $basicAuth := include "basic.auth" . }}
       containers:
+      {{- if $basicAuth }}
+      {{- if eq $basicAuth "openshift" }}
+      - name: moon-basic-auth
+        image: {{ $defRepo := "quay.io/aerokube/moon-basic-auth" -}}
+          {{- $defTag := .Chart.AppVersion -}}
+          {{- if .Values.deployment -}}
+          {{- .Values.deployment.moonBasicAuthRepo | default $defRepo -}}:{{- .Values.deployment.moonBasicAuthTag | default $defTag -}}
+          {{- else -}}
+          {{- $defRepo }}:{{- $defTag -}}
+          {{- end }}
+        resources:
+          limits:
+            cpu: {{ $def := "0.5" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthCPULimit | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+            memory: {{ $def := "256Mi" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthMemoryLimit | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+          requests:
+            cpu: {{ $def := "0.2" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthCPURequest | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+            memory: {{ $def := "256Mi" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthMemoryRequest | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+        ports:
+        - containerPort: 4545
+        volumeMounts:
+        - name: conf
+          mountPath: /conf
+      {{- end }}
+      {{- end }}
       - name: moon
         image: {{ $defRepo := "quay.io/aerokube/moon" -}}
           {{- $defTag := .Chart.AppVersion -}}
@@ -133,6 +178,55 @@ spec:
               {{- else -}}
               {{- $def -}}
               {{- end }}
+      {{- if $basicAuth }} 
+      {{- if eq $basicAuth "openshift" }}
+      - name: moon-ui-basic-auth
+        image: {{ $defRepo := "quay.io/aerokube/moon-basic-auth" -}}
+          {{- $defTag := .Chart.AppVersion -}}
+          {{- if .Values.deployment -}}
+          {{- .Values.deployment.moonBasicAuthRepo | default $defRepo -}}:{{- .Values.deployment.moonBasicAuthTag | default $defTag -}}
+          {{- else -}}
+          {{- $defRepo }}:{{- $defTag -}}
+          {{- end }}
+        args:
+        - -listen
+        - ":8181"
+        - -upstream-url
+        - http://127.0.0.1:8080
+        resources:
+          limits:
+            cpu: {{ $def := "0.5" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthCPULimit | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+            memory: {{ $def := "256Mi" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthMemoryLimit | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+          requests:
+            cpu: {{ $def := "0.2" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthCPURequest | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+            memory: {{ $def := "256Mi" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthMemoryRequest | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+        ports:
+        - containerPort: 8181
+        volumeMounts:
+        - name: conf
+          mountPath: /conf
+      {{- end }}
+      {{- end }}
       - name: moon-ui
         image: {{ $defRepo := "quay.io/aerokube/moon-ui" -}}
           {{- $defTag := "2.0.3" -}}
@@ -173,3 +267,7 @@ spec:
               {{- end }}
         ports:
         - containerPort: 8080
+      volumes:
+      - name: conf
+        secret:
+          secretName: {{ .Release.Name }}-basic-auth

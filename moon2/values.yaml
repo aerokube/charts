@@ -189,6 +189,37 @@ deployment:
   moonConfMemoryRequest:
 
   ##
+  ## Moon-basic-auth container image repository. Default is quay.io/aerokube/moon-basic-auth.
+  ##
+  moonBasicAuthRepo:
+
+  ##
+  ## Moon-basic-auth container image tag. Default equals to chart app version.
+  ##
+  moonBasicAuthTag:
+
+  ##
+  ## Moon-basic-auth container CPU limit. Default is 0.5.
+  ##
+  moonBasicAuthCPULimit:
+
+  ##
+  ## Moon-basic-auth container CPU request. Default is 0.2.
+  ##
+  moonBasicAuthCPURequest:
+
+  ##
+  ## Moon-basic-auth container memory limit. Default is 256Mi.
+  ## We recommend setting the same value for memory request and limit.
+  ##
+  moonBasicAuthMemoryLimit:
+
+  ##
+  ## Moon-basic-auth container memory request. Default is 256Mi.
+  ##
+  moonBasicAuthMemoryRequest:
+
+  ##
   ## Moon-ui image repository. Default is quay.io/aerokube/moon-ui.
   ##
   moonUIRepo:
