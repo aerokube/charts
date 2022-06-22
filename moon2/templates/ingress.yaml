@@ -10,7 +10,9 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
+  {{- if .Values.customIngress.ingressClassName }}
   ingressClassName: {{ .Values.customIngress.ingressClassName }}
+  {{- end }}
   {{- if .Values.customIngress.tls }}
   tls:
   {{ toYaml .Values.customIngress.tls | nindent 4 }}
@@ -132,7 +134,9 @@ spec:
     secretName: {{ $tlsSecretName }}
   {{- end }}
   {{- if not .Values.ingress.openshift }}
-  ingressClassName: nginx
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  {{- end }}
   {{- end }}
   rules:
   - host: {{ .Values.ingress.host }}
@@ -214,7 +218,9 @@ metadata:
     {{- end }}
 spec:
   {{- if not .Values.ingress.openshift }}
-  ingressClassName: nginx
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  {{- end }}
   {{- end }}
   {{- if $enableTLS }}
   tls:
