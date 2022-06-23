@@ -39,6 +39,11 @@ ingress:
   host: moon.aerokube.local
 
   ##
+  ## Ingress class name
+  ##
+  ingressClassName: nginx
+
+  ##
   ## Files with TLS certificate and TLS key. When provided Ingress switches to HTTPS-only mode.
   ## Set to empty files if you need HTTPS, but do not need to provide key and cert manually(i.g. use cert-manager)
   ##
