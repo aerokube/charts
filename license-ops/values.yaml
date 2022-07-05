@@ -1,0 +1,20 @@
+##
+## License name.
+##
+licenseName: moon
+
+##
+## Secret name.
+##
+secretName: licensekey
+
+##
+## Schedule
+##
+schedule: "* * * * *"
+
+##
+## Kubernetes version
+##
+version: 1.23
+
