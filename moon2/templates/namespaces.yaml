@@ -1,4 +1,3 @@
-{{- $releaseName := .Release.Namespace }}
 {{- $releaseNamespace := .Release.Namespace }}
 {{- range $name, $quota := .Values.quota }}
 {{- if or (not $quota) (not $quota.namespace) }}

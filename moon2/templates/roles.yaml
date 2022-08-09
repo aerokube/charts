@@ -1,7 +1,7 @@
 {{- template "check.quota" . }}
 {{- template "check.quota.namespaces" . }}
 
-{{- $releaseName := .Release.Namespace }}
+{{- $releaseName := .Release.Name }}
 {{- $releaseNamespace := .Release.Namespace }}
 {{- range $name, $quota := .Values.quota }}
 {{- if ne $quota.namespace $releaseNamespace }}
