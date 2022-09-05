@@ -37,4 +37,9 @@ spec:
               value: {{ .Values.browserImageVersions | quote }}
             {{- end }}
             {{- end }}
+            {{- if .Values.resources }}
+            resources:
+              {{- toYaml .Values.resources | nindent 14 }}
+            {{- end }}
           restartPolicy: Never
+

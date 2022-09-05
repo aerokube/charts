@@ -18,3 +18,9 @@ schedule: "* * * * *"
 ##
 version: 1.23
 
+##
+## Resources
+##
+resources: {}
+
+
