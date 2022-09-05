@@ -18,4 +18,10 @@ spec:
             image: bitnami/kubectl:{{ .Values.version }}
             command: ["/bin/bash", "-c"]
             args: ["kubectl patch license {{ .Values.licenseName }} --type='json' -p=\"[{\\\"op\\\": \\\"replace\\\", \\\"path\\\": \\\"/spec/data\\\", \\\"value\\\":\\\"$(kubectl get secret {{ .Values.secretName }} -n {{ .Release.Namespace }} -o yaml -o=jsonpath='{.data.license\\.key}' | base64 -d)\\\"}]\""]
+            {{- if .Values.resources }}
+            resources:
+              {{- toYaml .Values.resources | nindent 14 }}
+            {{- end }}
           restartPolicy: Never
+
+

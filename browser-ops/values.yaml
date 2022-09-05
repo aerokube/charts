@@ -20,3 +20,9 @@ browserImageVersions: recent
 ## Schedule
 ##
 schedule: "0 1 * * *"
+
+##
+## Resources
+##
+resources: {}
+
