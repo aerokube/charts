@@ -543,8 +543,12 @@ moon:
             port: "4444"
             path: "/"
       firefox:
-        default: "103.0"
+        default: "104.0"
         versions:
+          "104.0":
+            image: quay.io/browsers/firefox:104.0
+            port: "4444"
+            path: "/wd/hub"
           "103.0":
             image: quay.io/browsers/firefox:103.0
             port: "4444"
@@ -950,8 +954,11 @@ moon:
             port: "4444"
             path: "/wd/hub"
       chrome:
-        default: "104.0"
+        default: "105.0"
         versions:
+          "105.0":
+            image: quay.io/browsers/chrome:105.0
+            port: "4444"
           "104.0":
             image: quay.io/browsers/chrome:104.0
             port: "4444"
