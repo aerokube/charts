@@ -458,3 +458,9 @@ license:
 ## License key secret name. License data will loaded from secret, overrides license field.
 ##
 licenseSecretName:
+
+##
+## rbac true by default
+##
+rbac:
+  enabled: true
