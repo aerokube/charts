@@ -21,7 +21,7 @@ spec:
   selector:
     app: {{ .Release.Name }}
   ports:
-  - name: "moon"
+  - name: moon
     protocol: TCP
     port: 4444
     {{- if $basicAuth }}
@@ -29,7 +29,12 @@ spec:
     targetPort: 4545
       {{- end }}
     {{- end }}
-  - name: "moon-ui"
+  {{- if .Values.moonWASMUI }}
+  - name: moon-wasm-ui
+    protocol: TCP
+    port: 9090
+  {{- end }}
+  - name: moon-ui
     protocol: TCP
     port: 8080
     {{- if $basicAuth }}
