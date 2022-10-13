@@ -260,6 +260,42 @@ deployment:
   ##
   moonUIMemoryRequest:
 
+  ##
+  ## Enable Moon experimental WASM UI.
+  ##
+  moonWASMUI: false
+
+  ##
+  ## Moon-wasm-ui image repository. Default is quay.io/aerokube/moon-wasm-ui.
+  ##
+  moonWASMUIRepo:
+
+  ##
+  ## Moon-wasm-ui container image tag. Default equals to chart app version.
+  ##
+  moonWASMUITag:
+
+  ##
+  ## Moon-wasm-ui container CPU limit. Default is 0.25.
+  ##
+  moonWASMUICPULimit:
+
+  ##
+  ## Moon-wasm-ui container CPU request. Default is 0.25.
+  ##
+  moonWASMUICPURequest:
+
+  ##
+  ## Moon-wasm-ui container memory limit. Default is 64Mi.
+  ## We recommend setting the same value for memory request and limit.
+  ##
+  moonWASMUIMemoryLimit:
+
+  ##
+  ## Moon-wasm-ui container memory request. Default is 64Mi.
+  ##
+  moonWASMUIMemoryRequest:
+
   ## If specified, the pod's security policies.
   ## ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
   ##
