@@ -472,8 +472,12 @@ moon:
             port: "4444"
             path: "/"
       MicrosoftEdge:
-        default: "105.0"
+        default: "106.0"
         versions:
+          "106.0":
+            image: quay.io/browsers/edge:106.0
+            port: "4444"
+            path: "/"
           "105.0":
             image: quay.io/browsers/edge:105.0
             port: "4444"
@@ -547,8 +551,12 @@ moon:
             port: "4444"
             path: "/"
       firefox:
-        default: "105.0"
+        default: "106.0"
         versions:
+          "106.0":
+            image: quay.io/browsers/firefox:106.0
+            port: "4444"
+            path: "/wd/hub"
           "105.0":
             image: quay.io/browsers/firefox:105.0
             port: "4444"
