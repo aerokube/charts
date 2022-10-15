@@ -260,6 +260,11 @@ deployment:
   ##
   moonUIMemoryRequest:
 
+  ##
+  ## Enable Moon experimental UI.
+  ##
+  experimentalUI: false
+
   ## If specified, the pod's security policies.
   ## ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
   ##
