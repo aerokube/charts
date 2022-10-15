@@ -142,6 +142,22 @@ spec:
   - host: {{ .Values.ingress.host }}
     http:
       paths:
+      {{- if .Values.experimentalUI }}
+      - path: /ui
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}
+            port:
+              number: 9090
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}
+            port:
+              number: 9090
+      {{- end }}
       - path: /
         pathType: Prefix
         backend:
