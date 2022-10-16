@@ -142,7 +142,7 @@ spec:
   - host: {{ .Values.ingress.host }}
     http:
       paths:
-      {{- if .Values.experimentalUI }}
+      {{- if .Values.deployment.experimentalUI }}
       - path: /ui
         pathType: Prefix
         backend:

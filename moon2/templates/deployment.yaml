@@ -231,7 +231,7 @@ spec:
           mountPath: /conf
       {{- end }}
       {{- end }}
-      {{- if .Values.experimentalUI }}
+      {{- if .Values.deployment.experimentalUI }}
       - name: moon-exp-ui
         image: {{ $defRepo := "quay.io/aerokube/moon-ui" -}}
           {{- $defTag := .Chart.AppVersion -}}
