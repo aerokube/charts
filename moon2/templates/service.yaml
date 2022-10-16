@@ -29,7 +29,7 @@ spec:
     targetPort: 4545
       {{- end }}
     {{- end }}
-  {{- if .Values.experimentalUI }}
+  {{- if .Values.deployment.experimentalUI }}
   - name: moon-exp-ui
     protocol: TCP
     port: 9090
