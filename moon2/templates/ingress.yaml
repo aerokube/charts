@@ -100,13 +100,7 @@ metadata:
     {{- if $enableTLS }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     {{- end }}
-    {{- if $basicAuth }}
-    {{- if eq $basicAuth "kubernetes" }}
-    nginx.ingress.kubernetes.io/auth-type: basic
-    nginx.ingress.kubernetes.io/auth-secret: {{ .Release.Name }}-basic-auth
-    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Moon realm'
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-Moon-Quota $remote_user;
+    {{- if not .Values.ingress.openshift }}
     {{- if .Values.ingress.proxyConnectTimeout }}
     nginx.ingress.kubernetes.io/proxy-connect-timeout: {{ .Values.ingress.proxyConnectTimeout | quote }}
     {{- end }}
@@ -120,7 +114,17 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.proxyBodySize | quote }}
     {{- end }}
     {{- else }}
+    {{- if .Values.ingress.proxyReadTimeout }}
     haproxy.router.openshift.io/timeout: {{ (printf "%ds" (.Values.ingress.proxyReadTimeout | int)) | quote }}
+    {{- end }}
+    {{- end }}
+    {{- if $basicAuth }}
+    {{- if eq $basicAuth "kubernetes" }}
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: {{ .Release.Name }}-basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Moon realm'
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Moon-Quota $remote_user;
     {{- end }}
     {{- end }}
     {{- range $key, $value := .Values.ingress.customAnnotations }}
