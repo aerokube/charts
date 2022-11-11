@@ -15,7 +15,7 @@ spec:
           serviceAccountName: {{ .Release.Name }}
           containers:
           - name: license-ops
-            image: bitnami/kubectl:{{ .Values.version }}
+            image: {{ .Values.image }}:{{ .Values.version }}
             command: ["/bin/bash", "-c"]
             args: ["kubectl patch license {{ .Values.licenseName }} --type='json' -p=\"[{\\\"op\\\": \\\"replace\\\", \\\"path\\\": \\\"/spec/data\\\", \\\"value\\\":\\\"$(kubectl get secret {{ .Values.secretName }} -n {{ .Release.Namespace }} -o yaml -o=jsonpath='{.data.license\\.key}' | base64 -d)\\\"}]\""]
             {{- if .Values.resources }}
