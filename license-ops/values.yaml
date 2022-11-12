@@ -12,9 +12,13 @@ secretName: licensekey
 ## Schedule
 ##
 schedule: "* * * * *"
+##
+## Kubectl image
+##
+image: bitnami/kubectl
 
 ##
-## Kubernetes version
+## Kubectl version
 ##
 version: 1.23
 
