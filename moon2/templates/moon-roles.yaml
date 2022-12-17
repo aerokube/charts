@@ -65,10 +65,10 @@ rules:
   - get
   - watch
   - list
-{{- if $browserControl }}
-  - create
   - update
   - patch
+{{- if $browserControl }}
+  - create
   - delete
 {{- end }}
 - apiGroups:
