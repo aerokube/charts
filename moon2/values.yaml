@@ -51,6 +51,11 @@ ingress:
   tlsKey:
 
   ##
+  ## TLS Secret name. If exists will not be generated.
+  ##
+  tlsSecretName:
+
+  ##
   ## Ingress proxy timeout settings.
   ##
   proxyConnectTimeout: 1900
