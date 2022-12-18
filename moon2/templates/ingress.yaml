@@ -71,7 +71,7 @@ stringData:
     {{- end }}
 {{- end }}
 
-{{- $tlsSecretName := printf "%s-tls-cert" .Release.Name }}
+{{- $tlsSecretName := .Values.ingress.tlsSecretName | default (printf "%s-tls-cert" .Release.Name) }}
 {{- $enableTLS := false }}
 {{- $tlsSecretExist := (lookup "v1" "Secret" .Release.Namespace $tlsSecretName) }}
 {{- if $tlsSecretExist }}
@@ -80,6 +80,7 @@ stringData:
 
 {{- if and .Values.ingress.tlsCert .Values.ingress.tlsKey }}
   {{- $enableTLS = true }}
+{{ if not $tlsSecretExist }}
 ---
 apiVersion: v1
 kind: Secret
@@ -89,6 +90,7 @@ metadata:
 data:
   tls.crt: {{ .Values.ingress.tlsCert | b64enc }}
   tls.key: {{ .Values.ingress.tlsKey | b64enc }}
+{{- end }}
 {{- end }}
 ---
 apiVersion: networking.k8s.io/v1
