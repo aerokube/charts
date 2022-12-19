@@ -269,7 +269,7 @@ moon:
 #      bucketName: moon
 #
 #      ##
-#      ## S3 protocol version, default S3v4, use S3v2 for google storage.
+#      ## S3 protocol version, default S3v4, use S3v2 for Google storage.
 #      ##
 #      version: S3v2
 #
@@ -472,8 +472,16 @@ moon:
             port: "4444"
             path: "/"
       MicrosoftEdge:
-        default: "106.0"
+        default: "108.0"
         versions:
+          "108.0":
+            image: quay.io/browsers/edge:108.0
+            port: "4444"
+            path: "/"
+          "107.0":
+            image: quay.io/browsers/edge:107.0
+            port: "4444"
+            path: "/"
           "106.0":
             image: quay.io/browsers/edge:106.0
             port: "4444"
@@ -551,8 +559,16 @@ moon:
             port: "4444"
             path: "/"
       firefox:
-        default: "106.0"
+        default: "108.0"
         versions:
+          "108.0":
+            image: quay.io/browsers/firefox:108.0
+            port: "4444"
+            path: "/wd/hub"
+          "107.0":
+            image: quay.io/browsers/firefox:107.0
+            port: "4444"
+            path: "/wd/hub"
           "106.0":
             image: quay.io/browsers/firefox:106.0
             port: "4444"
@@ -970,8 +986,14 @@ moon:
             port: "4444"
             path: "/wd/hub"
       chrome:
-        default: "106.0"
+        default: "108.0"
         versions:
+          "108.0":
+            image: quay.io/browsers/chrome:108.0
+            port: "4444"
+          "107.0":
+            image: quay.io/browsers/chrome:107.0
+            port: "4444"
           "106.0":
             image: quay.io/browsers/chrome:106.0
             port: "4444"
@@ -1147,8 +1169,17 @@ moon:
             image: quay.io/browsers/chrome:48.0
             port: "4444"
       opera:
-        default: "91.0"
+        default: "94.0"
         versions:
+          "94.0":
+            image: quay.io/browsers/opera:94.0
+            port: "4444"
+          "93.0":
+            image: quay.io/browsers/opera:93.0
+            port: "4444"
+          "92.0":
+            image: quay.io/browsers/opera:92.0
+            port: "4444"
           "91.0":
             image: quay.io/browsers/opera:91.0
             port: "4444"
