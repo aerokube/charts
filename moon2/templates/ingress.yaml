@@ -1,3 +1,37 @@
+{{- $basicAuth := include "basic.auth" . }}
+
+{{- if $basicAuth }}
+  {{- range $name, $quota := .Values.quota }}
+    {{- if not $quota.password }}
+      {{- $data := (lookup "v1" "Secret" $quota.namespace (printf "%s-basic-auth-password" $name)).data }}
+      {{- if $data }}
+        {{- $_ := set $quota "password" ($data.password | b64dec) }}
+      {{- else }}
+        {{- $_ := set $quota "password" (randAlphaNum 32)  }}
+      {{- end }}
+    {{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $name }}-basic-auth-password
+  namespace: {{ $quota.namespace }}
+data:
+  password: {{ $quota.password | b64enc }}
+  {{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-basic-auth
+  namespace: {{ .Release.Namespace }}
+stringData:
+  auth: |
+    {{- range $name, $quota := .Values.quota }}
+    {{ htpasswd $name $quota.password }}
+    {{- end }}
+{{- end }}
+
 {{- if .Values.customIngress.enabled }}
 ---
 apiVersion: networking.k8s.io/v1
@@ -36,40 +70,6 @@ spec:
 {{- template "check.quota" . }}
 {{- template "check.quota.namespaces" . }}
 {{- template "check.ingress.host" . }}
-
-{{- $basicAuth := include "basic.auth" . }}
-
-{{- if $basicAuth }}
-  {{- range $name, $quota := .Values.quota }}
-    {{- if not $quota.password }}
-      {{- $data := (lookup "v1" "Secret" $quota.namespace (printf "%s-basic-auth-password" $name)).data }}
-      {{- if $data }}
-        {{- $_ := set $quota "password" ($data.password | b64dec) }}
-      {{- else }}
-        {{- $_ := set $quota "password" (randAlphaNum 32)  }}
-      {{- end }}
-    {{- end }}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ $name }}-basic-auth-password
-  namespace: {{ $quota.namespace }}
-data:
-  password: {{ $quota.password | b64enc }}
-  {{- end }}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ .Release.Name }}-basic-auth
-  namespace: {{ .Release.Namespace }}
-stringData:
-  auth: |
-    {{- range $name, $quota := .Values.quota }}
-    {{ htpasswd $name $quota.password }}
-    {{- end }}
-{{- end }}
 
 {{- $tlsSecretName := .Values.ingress.tlsSecretName | default (printf "%s-tls-cert" .Release.Name) }}
 {{- $enableTLS := false }}
