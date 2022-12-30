@@ -16,10 +16,14 @@
   {{- end -}}
 {{- end -}}
 {{- if $httpAuth -}}
-  {{- if .Values.ingress.openshift -}}
+  {{- if .Values.ingress.enabled -}}
+    {{- if .Values.ingress.openshift -}}
 openshift
-  {{- else -}}
+    {{- else -}}
 kubernetes
+    {{- end -}}
+  {{- else -}}
+moon-basic-auth
   {{- end -}}
 {{- end -}}
 {{- end -}}

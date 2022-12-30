@@ -56,7 +56,7 @@ spec:
       {{- $basicAuth := include "basic.auth" . }}
       containers:
       {{- if $basicAuth }}
-      {{- if eq $basicAuth "openshift" }}
+      {{- if not (eq $basicAuth "kubernetes") }}
       - name: moon-basic-auth
         image: {{ $defRepo := "quay.io/aerokube/moon-basic-auth" -}}
           {{- $defTag := .Chart.AppVersion -}}
@@ -110,7 +110,7 @@ spec:
         command:
         - /moon
         - -moon-url
-        - http://{{ .Release.Name }}.{{ .Release.Namespace }}:4444/wd/hub
+        - http://{{ .Release.Name }}{{- if $basicAuth -}}{{- if not (eq $basicAuth "kubernetes") -}}-incluster{{- end -}}{{- end -}}.{{ .Release.Namespace }}:4444/wd/hub
         {{- if .Values.deployment.moonCallbackURL }}
         - -callback-url
         - {{ .Values.deployment.moonCallbackURL }}
@@ -183,7 +183,7 @@ spec:
               {{- $def -}}
               {{- end }}
       {{- if $basicAuth }}
-      {{- if eq $basicAuth "openshift" }}
+      {{- if not (eq $basicAuth "kubernetes") }}
       - name: moon-ui-basic-auth
         image: {{ $defRepo := "quay.io/aerokube/moon-basic-auth" -}}
           {{- $defTag := .Chart.AppVersion -}}
@@ -232,6 +232,55 @@ spec:
       {{- end }}
       {{- end }}
       {{- if .Values.deployment.experimentalUI }}
+      {{- if $basicAuth }}
+      {{- if not (eq $basicAuth "kubernetes") }}
+      - name: moon-exp-ui-basic-auth
+        image: {{ $defRepo := "quay.io/aerokube/moon-basic-auth" -}}
+          {{- $defTag := .Chart.AppVersion -}}
+          {{- if .Values.deployment -}}
+          {{- .Values.deployment.moonBasicAuthRepo | default $defRepo -}}:{{- .Values.deployment.moonBasicAuthTag | default $defTag -}}
+          {{- else -}}
+          {{- $defRepo }}:{{- $defTag -}}
+          {{- end }}
+        args:
+        - -listen
+        - ":9191"
+        - -upstream-url
+        - http://127.0.0.1:9090
+        resources:
+          limits:
+            cpu: {{ $def := "0.5" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthCPULimit | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+            memory: {{ $def := "256Mi" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthMemoryLimit | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+          requests:
+            cpu: {{ $def := "0.2" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthCPURequest | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+            memory: {{ $def := "256Mi" -}}
+              {{- if .Values.deployment -}}
+              {{- .Values.deployment.moonBasicAuthMemoryRequest | default $def | quote -}}
+              {{- else -}}
+              {{- $def -}}
+              {{- end }}
+        ports:
+        - containerPort: 9191
+        volumeMounts:
+        - name: conf
+          mountPath: /conf
+      {{- end }}
+      {{- end }}
       - name: moon-exp-ui
         image: {{ $defRepo := "quay.io/aerokube/moon-ui" -}}
           {{- $defTag := .Chart.AppVersion -}}
@@ -314,6 +363,10 @@ spec:
         ports:
         - containerPort: 8080
       volumes:
+      {{- if $basicAuth }}
+      {{- if not (eq $basicAuth "kubernetes") }}
       - name: conf
         secret:
           secretName: {{ .Release.Name }}-basic-auth
+      {{- end }}
+      {{- end }}

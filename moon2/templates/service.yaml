@@ -1,5 +1,22 @@
----
 {{- $basicAuth := include "basic.auth" . }}
+{{- if $basicAuth }}
+  {{- if not (eq $basicAuth "kubernetes") }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-incluster
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+  - name: moon
+    protocol: TCP
+    port: 4444
+  {{- end }}
+{{- end }}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -25,7 +42,7 @@ spec:
     protocol: TCP
     port: 4444
     {{- if $basicAuth }}
-      {{- if eq $basicAuth "openshift" }}
+      {{- if not (eq $basicAuth "kubernetes") }}
     targetPort: 4545
       {{- end }}
     {{- end }}
@@ -33,12 +50,17 @@ spec:
   - name: moon-exp-ui
     protocol: TCP
     port: 9090
+    {{- if $basicAuth }}
+      {{- if not (eq $basicAuth "kubernetes") }}
+    targetPort: 9191
+      {{- end }}
+    {{- end }}
   {{- end }}
   - name: moon-ui
     protocol: TCP
     port: 8080
     {{- if $basicAuth }}
-      {{- if eq $basicAuth "openshift" }}
+      {{- if not (eq $basicAuth "kubernetes") }}
     targetPort: 8181
       {{- end }}
     {{- end }}
