@@ -108,15 +108,15 @@ spec:
           {{- $defRepo }}:{{- $defTag -}}
           {{- end }}
         command:
-        - /moon
-        - -moon-url
-        - http://{{ .Release.Name }}{{- if $basicAuth -}}{{- if not (eq $basicAuth "kubernetes") -}}-incluster{{- end -}}{{- end -}}.{{ .Release.Namespace }}:4444/wd/hub
+        - "/moon"
+        - "-moon-url"
+        - "http://{{ .Release.Name }}{{- if $basicAuth -}}{{- if not (eq $basicAuth "kubernetes") -}}-incluster{{- end -}}{{- end -}}.{{ .Release.Namespace }}:4444/wd/hub"
         {{- if .Values.deployment.moonCallbackURL }}
-        - -callback-url
-        - {{ .Values.deployment.moonCallbackURL }}
+        - "-callback-url"
+        - {{ quote .Values.deployment.moonCallbackURL }}
         {{- end }}
         {{- range $v := .Values.deployment.moonAdditionalArgs }}
-        - {{ $v }}
+        - {{ quote $v }}
         {{- end }}
         resources:
           limits:
