@@ -115,8 +115,9 @@ spec:
         - -callback-url
         - {{ .Values.deployment.moonCallbackURL }}
         {{- end }}
-        {{- range $v := .Values.deployment.moonAdditionalArgs }}
-        - {{ $v }}
+        {{- if .Values.deployment.moonBrowserLimit }}
+        - -browser-limit
+        - {{ .Values.deployment.moonBrowserLimit | quote }}
         {{- end }}
         resources:
           limits:
