@@ -168,9 +168,9 @@ deployment:
   moonCallbackURL:
 
   ##
-  ## Moon additional arguments. Use it in case you need to pass some parameters to moon binary
+  ## Moon browser limit. Use it in case you need to lower browser limit than license key allows. Default unset.
   ##
-  moonAdditionalArgs: []
+  moonBrowserLimit:
 
   ##
   ## Moon-conf image repository. Default is quay.io/aerokube/moon-conf.
