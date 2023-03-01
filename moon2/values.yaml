@@ -116,6 +116,16 @@ service:
   ##
   externalIPs: []
 
+
+##
+## Moon pod-deployment settings.
+## 
+pod:
+  ##
+  ## Custom deployment annotations.
+  ##
+  annotations: {}
+
 ##
 ## Moon deployment settings.
 ##
