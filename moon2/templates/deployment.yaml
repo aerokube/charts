@@ -20,6 +20,10 @@ spec:
       app: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        {{- range $key, $value := .Values.deployment.podAnnotations }}
+          {{ $key }}: {{ $value | quote }}
+        {{- end }}
       labels:
         app: {{ .Release.Name }}
     spec:
