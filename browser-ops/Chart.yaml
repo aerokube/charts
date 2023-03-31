@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: browser-ops
 version: 1.0.0
 appVersion: 2.3.7
