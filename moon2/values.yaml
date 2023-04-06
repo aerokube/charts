@@ -126,6 +126,11 @@ pod:
   ##
   annotations: {}
 
+  ##
+  ## Custom pod annotations.
+  ##
+  podAnnotations: {}
+
 ##
 ## Moon deployment settings.
 ##

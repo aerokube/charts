@@ -21,7 +21,7 @@ spec:
   template:
     metadata:
       annotations:
-        {{- range $key, $value := .Values.pod.annotations }}
+        {{- range $key, $value := .Values.pod.podAnnotations }}
           {{ $key }}: {{ $value | quote }}
         {{- end }}
       labels:
