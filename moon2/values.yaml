@@ -116,21 +116,6 @@ service:
   ##
   externalIPs: []
 
-
-##
-## Moon pod-deployment settings.
-## 
-pod:
-  ##
-  ## Custom deployment annotations.
-  ##
-  annotations: {}
-
-  ##
-  ## Custom pod annotations.
-  ##
-  podAnnotations: {}
-
 ##
 ## Moon deployment settings.
 ##
@@ -140,6 +125,11 @@ deployment:
   ## Custom deployment annotations.
   ##
   annotations: {}
+
+  ##
+  ## Custom pod annotations.
+  ##
+  podAnnotations: {}
 
   ##
   ## Total number of Moon pods. Default is 2.
