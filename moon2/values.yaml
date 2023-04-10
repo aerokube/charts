@@ -127,6 +127,11 @@ deployment:
   annotations: {}
 
   ##
+  ## Custom pod annotations.
+  ##
+  podAnnotations: {}
+
+  ##
   ## Total number of Moon pods. Default is 2.
   ##
   replicas:
