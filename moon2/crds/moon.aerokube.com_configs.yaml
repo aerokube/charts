@@ -67,7 +67,7 @@ spec:
                   defender:
                     properties:
                       repository:
-                        default: aerokube/defender
+                        default: quay.io/aerokube/defender
                         type: string
                       resources:
                         default: {}
@@ -101,7 +101,7 @@ spec:
                   x-server:
                     properties:
                       repository:
-                        default: aerokube/x-server
+                        default: quay.io/aerokube/x-server
                         type: string
                       resources:
                         default: {}
@@ -135,7 +135,7 @@ spec:
                   vnc-server:
                     properties:
                       repository:
-                        default: aerokube/vnc-server
+                        default: quay.io/aerokube/vnc-server
                         type: string
                       resources:
                         default: {}
@@ -169,7 +169,7 @@ spec:
                   video-recorder:
                     properties:
                       repository:
-                        default: aerokube/video-recorder
+                        default: quay.io/aerokube/video-recorder
                         type: string
                       resources:
                         default: {}
@@ -203,7 +203,41 @@ spec:
                   ca-certs:
                     properties:
                       repository:
-                        default: aerokube/ca-certs
+                        default: quay.io/aerokube/ca-certs
+                        type: string
+                      resources:
+                        default: {}
+                        properties:
+                          limits:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 200m
+                              memory: 32Mi
+                            type: object
+                          requests:
+                            additionalProperties:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            default:
+                              cpu: 100m
+                              memory: 32Mi
+                            type: object
+                        type: object
+                      version:
+                        type: string
+                    type: object
+                  proxy:
+                    properties:
+                      repository:
+                        default: quay.io/aerokube/proxy
                         type: string
                       resources:
                         default: {}

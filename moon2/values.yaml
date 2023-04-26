@@ -355,6 +355,15 @@ configs:
           requests:
             cpu: 100m
             memory: 32Mi
+      proxy:
+        repository: quay.io/aerokube/proxy
+        resources:
+          limits:
+            cpu: 200m
+            memory: 32Mi
+          requests:
+            cpu: 100m
+            memory: 32Mi
       defender:
         repository: quay.io/aerokube/defender
         resources:
