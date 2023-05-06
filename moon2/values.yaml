@@ -287,6 +287,14 @@ deployment:
   #  runAsUser: 1000
 
   ##
+  ## Optional fields that specifies the maximum number of pods that can be created over the desired number of pods
+  ## and that can be unavailable during the update. You can use both int and percent values.
+  ##
+  rollingUpdate: {}
+  #    maxSurge: 25%
+  #    maxUnavailable: 25%
+
+  ##
   ## Node Selector for Moon pods
   ##
   nodeSelector: {}
