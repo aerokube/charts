@@ -1,6 +1,6 @@
 apiVersion: v2
 name: moon2
 version: 2.0.0
-appVersion: 2.5.0
+appVersion: 2.5.1
 description: Moon Helm chart
 icon: https://aerokube.com/img/aerokube_logo.svg
