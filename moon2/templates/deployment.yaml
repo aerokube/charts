@@ -18,6 +18,11 @@ spec:
   selector:
     matchLabels:
       app: {{ .Release.Name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.deployment.rollingUpdate.maxSurge | default 1 }}
+      maxUnavailable: {{ .Values.deployment.rollingUpdate.maxUnavailable | default 1 }}
+    type: RollingUpdate
   template:
     metadata:
       annotations:
