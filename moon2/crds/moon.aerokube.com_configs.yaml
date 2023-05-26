@@ -322,7 +322,6 @@ spec:
                         type: string
                     required:
                     - name
-                    default: null
                 type: object
               user:
                 default: {}
