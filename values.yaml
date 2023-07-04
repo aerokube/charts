@@ -1,0 +1,54 @@
+boot:
+  namespaces:
+  jumphost:
+    user:
+      name: jump
+      uid: 10000000
+      gid: 10000000
+    port: 2222
+    authorizedKeys:
+    trustedUserCAKeys:
+    hostCertificate:
+  service:
+    annotations:
+    labels:
+    externalIPs:
+  serviceAccount:
+    annotations:
+    labels:
+  deployment:
+    annotations:
+    labels:
+    affinity:
+    tolerations:
+    nodeSelector:
+    strategy:
+    priorityClassName:
+    replicas: 2
+    terminationGracePeriodSeconds: 300
+    pods:
+      annotations:
+      labels:
+    containers:
+      boot:
+        image:
+          repo: aerokube/boot
+          tag:
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+      jumphost:
+        image:
+          repo: aerokube/jumphost
+          tag:
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 1000m
+            memory: 2Gi
