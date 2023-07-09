@@ -2,9 +2,15 @@ apiVersion: boot.aerokube.com/v1
 kind: VirtualMachine
 metadata:
   name: virtual-machine-01
+  namespace: boot
 spec:
   authorizedKeys:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOUbtUbYOis4WuIduLKTctWMIzYVBTRGmr7eK4/PLc9Q aandryashin@macbook
   trustedUserCAKeys:
   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCVylg4bf6KmNUhqTLgkE7qmFC+F34RCpVQ/RP5yHuQlVXARMPWalhTZWfCFpQM+TWz4nXsRExfTh9kWbuFMNPTcHPzwKgblo8qtjZHlp9ee2aEQAhDddqmsFkOOUz9VSlka8B+MsxSG97NkpL3Q/XMnqoEU74fQgvzbHaUQGC8l0LH5EgLffhTLSuycISvqdJBUKUPh6D2MZt7tPG0fSuz6d3xkwpdPBwJhPZhRjnuQiplI7R+pDc6nBzezknrk+y+rfKrTf1jOpFgE2vMcZoiEPM3H0APXZHWSMRAvjoqWAuwWC24NnTk++sKklBk4QWtWykOXzuNy8+WmybpXsiDcVKStYD34S4wnWJMTwk/wZjE5ot7aOku/qIcZrqNYSoLP2AHA0k2qQQyvqTM8fuGLSiu+LHNYyp6On9S4dNlt7SvmlQEG0SJWMjHYPSAg9zvMV6ZmeBRMjrTlBDwajQnSv0HWifoZpGT6oJhDNOn7XrhmtpLZZry4V8wt9uMrBtQ2GjSb5gjbEZbiL3aczhM7azkJ3JH7DGJ7tB5VOkk9MuuUPyKCQjqj92LBlXiXjWC9A22m4dFPGGsU/X5fo+OuYp9Ea9fIHeSFdHmXz7Jk7JgUhOLEF/mAJCO+HVLUPn2HWep6CIJj1glXYb4b07VJVdlBF8r6AfaU5UuXbzPdQ== user_ca
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMwm6Z4XCIkuP+/2rgcKG40W8tiGlgsXjxTcYIdbL5xx user_ed25519_ca
+  resources:
+    limits:
+      cpu: 100m
+    requests:
+      cpu: 100m

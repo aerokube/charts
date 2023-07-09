@@ -92,7 +92,7 @@ data:
   generate-ssh-keys.sh: |
     #!/bin/bash
     mkdir -p ./etc/ssh &&
-    /usr/bin/ssh-keygen -A -f . && 
+    /usr/bin/ssh-keygen -A -f . &&
     /usr/local/bin/kubectl create secret generic -n {{ $namespace }} {{ $.Release.Name }}-ssh-host-keys \
       --from-file=./etc/ssh/ssh_host_rsa_key \
       --from-file=./etc/ssh/ssh_host_ed25519_key \
@@ -118,7 +118,9 @@ spec:
         runAsGroup: 10000000
       containers:
       - name: keygen
-        image: aerokube/keygen:1.0.0
+        {{- with $.Values.boot.deployment.containers.keygen.image }}
+        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        {{- end }}
         command: ["/usr/local/bin/generate-ssh-keys.sh"]
         workingDir: /tmp
         securityContext:
@@ -130,6 +132,10 @@ spec:
           capabilities:
             drop:
             - all
+        {{- with $.Values.boot.deployment.containers.keygen.resources }}
+        resources:
+        {{- toYaml . | nindent 10 -}}
+        {{- end }}
         volumeMounts:
         - name: {{ $.Release.Name }}-generate-ssh-keys-user
           mountPath: /etc/group
@@ -190,7 +196,9 @@ spec:
         runAsGroup: 10000000
       containers:
       - name: keygen
-        image: aerokube/keygen:1.0.0
+        {{- with $.Values.boot.deployment.containers.keygen.image }}
+        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        {{- end }}
         command: ["/usr/local/bin/generate-ssh-keys.sh"]
         workingDir: /tmp
         securityContext:
@@ -202,6 +210,10 @@ spec:
           capabilities:
             drop:
             - all
+        {{- with $.Values.boot.deployment.containers.keygen.resources }}
+        resources:
+        {{- toYaml . | nindent 10 -}}
+        {{- end }}
         volumeMounts:
         - name: {{ $.Release.Name }}-generate-ssh-keys-user
           mountPath: /etc/group

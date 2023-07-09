@@ -59,7 +59,9 @@ spec:
         fsGroup: {{ printf "%d" (int64 .Values.boot.jumphost.user.gid) }}
       containers:
       - name: boot
-        image: aerokube/boot:1.0.0
+        {{- with .Values.boot.deployment.containers.boot.image }}
+        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        {{- end }}
         command: ["/boot"]
         securityContext:
           privileged: false
@@ -70,8 +72,14 @@ spec:
           capabilities:
             drop:
             - all
+        {{- with .Values.boot.deployment.containers.boot.resources }}
+        resources:
+        {{- toYaml . | nindent 10 -}}
+        {{- end }}
       - name: reloader
-        image: aerokube/reloader:1.0.0
+        {{- with .Values.boot.deployment.containers.reloader.image }}
+        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        {{- end }}
         command: ["/reloader", "-listen", ":{{ .Values.boot.jumphost.port }}", "-port", "{{ add .Values.boot.jumphost.port 1 }}"]
         ports:
         - containerPort: {{ .Values.boot.jumphost.port }}
@@ -84,6 +92,10 @@ spec:
           capabilities:
             drop:
             - all
+        {{- with .Values.boot.deployment.containers.reloader.resources }}
+        resources:
+        {{- toYaml . | nindent 10 -}}
+        {{- end }}
         volumeMounts:
         - name: tmp
           mountPath: /tmp
