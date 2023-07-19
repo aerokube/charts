@@ -37,10 +37,10 @@ boot:
         resources:
           limits:
             cpu: 1000m
-            memory: 1Gi
+            memory: 512Mi
           requests:
-            cpu: 1000m
-            memory: 1Gi
+            cpu: 100m
+            memory: 512Mi
       jumphost:
         image:
           repo: aerokube/jumphost
@@ -48,20 +48,20 @@ boot:
         resources:
           limits:
             cpu: 1000m
-            memory: 1Gi
+            memory: 512Mi
           requests:
-            cpu: 1000m
-            memory: 1Gi
+            cpu: 100m
+            memory: 512Mi
       keygen:
         image:
           repo: aerokube/keygen
           tag:
         resources:
           limits:
-            cpu: 500m
+            cpu: 1000m
             memory: 512Mi
           requests:
-            cpu: 500m
+            cpu: 100m
             memory: 512Mi
       reloader:
         image:
