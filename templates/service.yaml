@@ -30,15 +30,11 @@ spec:
 {{- $namespaces = list .Release.Namespace }}
 {{- end }}
 {{- range $namespace := $namespaces }}
-{{- $name := "vm" }}
-{{- if lookup "v1" "Service" $namespace $name }}
-{{- $name = printf "%s-%s" $name $.Release.Name }}
-{{- end }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $name }}
+  name: vm
   namespace: {{ $namespace }}
 spec:
   selector:

@@ -1,7 +1,7 @@
 apiVersion: boot.aerokube.com/v1
 kind: VirtualMachine
 metadata:
-  name: virtual-machine-01
+  name: "01"
   namespace: boot
 spec:
   authorizedKeys:

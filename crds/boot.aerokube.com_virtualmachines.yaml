@@ -18,11 +18,14 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .status.state
-      name: status
+    - jsonPath: .status.fqdn
+      name: fqdn
       type: string
     - jsonPath: .status.ip
       name: ip
+      type: string
+    - jsonPath: .status.state
+      name: status
       type: string
     - jsonPath: .metadata.creationTimestamp
       name: uptime
@@ -81,6 +84,8 @@ spec:
             type: object
           status:
             properties:
+              fqdn:
+                type: string
               ip:
                 type: string
               reason:
