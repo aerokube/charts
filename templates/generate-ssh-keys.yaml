@@ -9,11 +9,7 @@
 {{- end }}
 {{- $namespaces = append $namespaces .Release.Namespace }}
 {{- end }}
-#
-# {{ printf "%v" $manageReleaseNamespace }}
-#
 {{- range $namespace := $namespaces }}
-# {{ printf "%s" $namespace }}
 ---
 apiVersion: v1
 kind: ServiceAccount

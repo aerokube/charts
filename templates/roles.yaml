@@ -7,13 +7,14 @@ rules:
 - apiGroups:
   - boot.aerokube.com
   resources:
+  - operatingsystems
+  - operatingsystems/status
   - virtualmachines
   - virtualmachines/status
   verbs:
   - get
   - watch
   - list
-  - update
   - patch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
