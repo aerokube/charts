@@ -115,7 +115,7 @@ spec:
       containers:
       - name: keygen
         {{- with $.Values.boot.deployment.containers.keygen.image }}
-        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         {{- end }}
         command: ["/usr/local/bin/generate-ssh-keys.sh"]
         workingDir: /tmp
@@ -193,7 +193,7 @@ spec:
       containers:
       - name: keygen
         {{- with $.Values.boot.deployment.containers.keygen.image }}
-        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         {{- end }}
         command: ["/usr/local/bin/generate-ssh-keys.sh"]
         workingDir: /tmp

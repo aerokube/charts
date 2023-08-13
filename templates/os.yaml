@@ -12,7 +12,7 @@ metadata:
   name: {{ $os }}
   namespace: {{ $namespace }}
 spec:
-  repository: {{ $v.repo }}
+  repository: {{ $v.repository }}
   versions: {{ $def := $v.versions }}
   {{- if not $def }}
   {{- $def = list "latest" }}
@@ -22,7 +22,7 @@ spec:
   {{- end }}
   resources:
     limits:
-      cpu: {{ $def := "0.5" -}}
+      cpu: {{ $def := "0.25" -}}
       {{- if $v.resources -}}
       {{- if $v.resources.limits -}}
       {{- $v.resources.limits.cpu -}}
@@ -43,7 +43,7 @@ spec:
       {{- $def | quote -}}
       {{- end }}
     requests:
-      cpu: {{ $def := "0.5" -}}
+      cpu: {{ $def := "0.25" -}}
       {{- if $v.resources -}}
       {{- if $v.resources.requests -}}
       {{- $v.resources.requests.cpu | quote -}}

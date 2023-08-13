@@ -60,9 +60,10 @@ spec:
       containers:
       - name: boot
         {{- with .Values.boot.deployment.containers.boot.image }}
-        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         {{- end }}
-        command: ["/boot"]
+        command:
+        - /boot
         securityContext:
           privileged: false
           runAsUser: {{ printf "%d" (int64 .Values.boot.jumphost.user.uid) }}
@@ -78,7 +79,7 @@ spec:
         {{- end }}
       - name: reloader
         {{- with .Values.boot.deployment.containers.reloader.image }}
-        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         {{- end }}
         command: ["/reloader", "-listen", ":{{ .Values.boot.jumphost.port }}", "-port", "{{ add .Values.boot.jumphost.port 1 }}"]
         ports:
@@ -101,7 +102,7 @@ spec:
           mountPath: /tmp
       - name: jumphost
         {{- with .Values.boot.deployment.containers.jumphost.image }}
-        image: {{ .repo }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         {{- end }}
         lifecycle:
           preStop:

@@ -48,6 +48,10 @@ spec:
             type: object
           spec:
             properties:
+              annotations:
+                additionalProperties:
+                  type: string
+                type: object
               authorizedKeys:
                 items:
                   type: string
@@ -63,6 +67,10 @@ spec:
                       type: string
                   type: object
                 type: array
+              labels:
+                additionalProperties:
+                  type: string
+                type: object
               os:
                 type: string
               resources:
@@ -823,6 +831,8 @@ spec:
             properties:
               cpu:
                 type: string
+              dirty:
+                type: string
               fqdn:
                 type: string
               ip:
@@ -833,6 +843,12 @@ spec:
                 type: string
               reason:
                 type: string
+              rq:
+                anyOf:
+                - type: integer
+                - type: string
+                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                x-kubernetes-int-or-string: true
               state:
                 type: string
             type: object
@@ -848,6 +864,9 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
   name: operatingsystems.boot.aerokube.com
 spec:
   group: boot.aerokube.com
@@ -1331,6 +1350,80 @@ spec:
               memory:
                 type: string
               versions:
+                type: string
+            type: object
+        required:
+        - metadata
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: licenses.boot.aerokube.com
+spec:
+  group: boot.aerokube.com
+  names:
+    kind: License
+    listKind: LicenseList
+    plural: licenses
+    singular: license
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.owner
+      name: licensee
+      type: string
+    - jsonPath: .status.limit
+      name: cpus
+      type: string
+    - jsonPath: .status.usage
+      name: usage
+      type: string
+    - jsonPath: .status.expires
+      name: expires
+      type: string
+    - jsonPath: .status.status
+      name: status
+      type: string
+    - jsonPath: .metadata.name
+      name: namespace
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: age
+      type: date
+    name: v1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              data:
+                type: string
+            required:
+            - data
+            type: object
+          status:
+            properties:
+              expires:
+                type: string
+              limit:
+                type: string
+              owner:
+                type: string
+              status:
+                type: string
+              usage:
                 type: string
             type: object
         required:
