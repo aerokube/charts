@@ -59,7 +59,7 @@ boot:
     strategy:
     priorityClassName:
     replicas: 2
-    terminationGracePeriodSeconds: 300
+    terminationGracePeriodSeconds: 30
     pods:
       annotations:
       labels:
