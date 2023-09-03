@@ -18,8 +18,8 @@ jobs:
       - name: Build
         run: |
           git fetch --tags
-          export VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))-$(git rev-parse --short HEAD)
-          ci/build.sh $VERSION unstable
+          export COMMIT=$(git rev-parse --short HEAD)
+          ci/build.sh $COMMIT unstable
 
       - name: Send output to S3 bucket
         working-directory: ./output
