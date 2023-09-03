@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
 CHARTS_REPO="https://charts.aerokube.com/"
 
-version=$1
+commit=$1
 path=${2:-""}
 output_dir="output"
 if [ -n "$path" ]; then
@@ -12,10 +12,15 @@ if [ -n "$path" ]; then
     CHARTS_REPO="$CHARTS_REPO$path/"
 fi
 mkdir -p "$output_dir"
-helm package moon --destination "$output_dir"
-helm package moon2 --destination "$output_dir" --version "$version"
-helm package browser-ops --destination "$output_dir" --version "$version"
-helm package license-ops --destination "$output_dir" --version "$version"
+for package in moon moon2 browser-ops license-ops; do
+  pushd "$package"
+  version=$(yq '.version' Chart.yaml)
+  if [ -n "$path" ]; then
+    version="$version-$commit"
+  fi
+  popd
+  helm package "$package" --destination "$output_dir" --version "$version"
+done
 cd "$output_dir"
 wget "$CHARTS_REPO/index.yaml" || true
 helm repo index . --url "$CHARTS_REPO" --merge index.yaml

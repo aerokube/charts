@@ -1,6 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-helm lint moon
-helm lint moon2
-helm lint browser-ops
-helm lint license-ops
+for package in moon moon2 browser-ops license-ops; do
+  helm lint "$package"
+done
