@@ -1,0 +1,87 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Release.Namespace }}
+rules:
+- apiGroups:
+  - boot.aerokube.com
+  resources:
+  - licenses
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - boot.aerokube.com
+  resources:
+  - licenses/status
+  verbs:
+  - patch
+- apiGroups:
+  - boot.aerokube.com
+  resources:
+  - operatingsystems
+  - operatingsystems/status
+  - virtualmachines
+  - virtualmachines/status
+  verbs:
+  - get
+  - watch
+  - list
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Release.Namespace }}
+#  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Namespace }}
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+
+{{- $namespaces := .Values.boot.namespaces }}
+{{- if not $namespaces }}
+{{- $namespaces = list .Release.Namespace }}
+{{- end }}
+{{- range $namespace := $namespaces }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $.Release.Name }}
+  namespace: {{ $namespace }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - configmaps
+  verbs:
+  - get
+  - watch
+  - list
+  - create
+  - update
+  - patch
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $.Release.Name }}
+  namespace: {{ $namespace }}
+roleRef:
+  kind: Role
+  name: {{ $.Release.Name }}
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: {{ $.Release.Name }}
+  namespace: {{ $.Release.Namespace }}
+{{- end }}

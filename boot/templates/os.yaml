@@ -1,0 +1,68 @@
+{{- $namespaces := $.Values.boot.namespaces }}
+{{- if not $namespaces }}
+{{- $namespaces = list .Release.Namespace }}
+{{- end }}
+{{- range $namespace := $namespaces }}
+{{- with $.Values.boot.os }}
+{{- range $os, $v := . }}
+---
+apiVersion: boot.aerokube.com/v1
+kind: OperatingSystem
+metadata:
+  name: {{ $os }}
+  namespace: {{ $namespace }}
+spec:
+  repository: {{ $v.repository }}
+  versions: {{ $def := $v.versions }}
+  {{- if not $def }}
+  {{- $def = list "latest" }}
+  {{- end -}}
+  {{- range $v := $def }}
+  - {{ $v | quote }}
+  {{- end }}
+  resources:
+    limits:
+      cpu: {{ $def := "0.25" -}}
+      {{- if $v.resources -}}
+      {{- if $v.resources.limits -}}
+      {{- $v.resources.limits.cpu -}}
+      {{- else -}}
+      {{- $def -}}
+      {{- end -}}
+      {{- else -}}
+      {{- $def | quote -}}
+      {{- end }}
+      memory: {{ $def := "1Gi" -}}
+      {{- if $v.resources -}}
+      {{- if $v.resources.limits -}}
+      {{- $v.resources.limits.memory | quote -}}
+      {{- else -}}
+      {{- $def -}}
+      {{- end -}}
+      {{- else -}}
+      {{- $def | quote -}}
+      {{- end }}
+    requests:
+      cpu: {{ $def := "0.25" -}}
+      {{- if $v.resources -}}
+      {{- if $v.resources.requests -}}
+      {{- $v.resources.requests.cpu | quote -}}
+      {{- else -}}
+      {{- $def | quote -}}
+      {{- end -}}
+      {{- else -}}
+      {{- $def | quote -}}
+      {{- end }}
+      memory: {{ $def := "1Gi" -}}
+      {{- if $v.resources -}}
+      {{- if $v.resources.requests -}}
+      {{- $v.resources.requests.memory | quote -}}
+      {{- else -}}
+      {{- $def | quote -}}
+      {{- end -}}
+      {{- else -}}
+      {{- $def | quote -}}
+      {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

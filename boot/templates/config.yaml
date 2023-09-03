@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  namespace: {{ .Release.Namespace }}
+data:
+  group: |
+    root:x:0:
+    {{ .Values.boot.jumphost.user.name }}:x:{{ printf "%d" (int64 .Values.boot.jumphost.user.gid) }}:
+  passwd: |
+    root:x:0:0:root:/root:/sbin/nologin
+    {{ .Values.boot.jumphost.user.name }}:x:{{ printf "%d" (int64 .Values.boot.jumphost.user.uid) }}:{{ printf "%d" (int64 .Values.boot.jumphost.user.gid) }}::/home/{{ .Values.boot.jumphost.user.name }}:/sbin/nologin
+  sshd_config: |
+    Port {{ add .Values.boot.jumphost.port 1 }}
+    PasswordAuthentication no
+    KbdInteractiveAuthentication no
+    UsePAM no
+
+    Match User {{ .Values.boot.jumphost.user.name }}
+      PermitTTY no
+      X11Forwarding no
+      PermitTunnel no
+      GatewayPorts no
+      ForceCommand /sbin/nologin
+
+    {{- with .Values.boot.jumphost.hostCertificate }}
+    HostCertificate /etc/ssh/ssh_host_key-cert.pub
+    {{- end }}
+    TrustedUserCAKeys /etc/ssh/user_ca.pub
+    AuthorizedKeysFile /etc/ssh/authorized_keys

@@ -1,0 +1,235 @@
+{{- $namespaces := .Values.boot.namespaces }}
+{{- $manageReleaseNamespace := false }}
+{{- if has .Release.Namespace $namespaces }}
+{{- $manageReleaseNamespace = true }}
+{{- else }}
+{{- if not $namespaces }}
+{{- $manageReleaseNamespace = true }}
+{{- $namespaces = list }}
+{{- end }}
+{{- $namespaces = append $namespaces .Release.Namespace }}
+{{- end }}
+{{- range $namespace := $namespaces }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $.Release.Name }}-generate-ssh-keys
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/hook: "pre-install,pre-upgrade"
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+    helm.sh/hook-weight: "1"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $.Release.Name }}-generate-ssh-keys
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+    helm.sh/hook-weight: "2"
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $.Release.Name }}-generate-ssh-keys
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+    helm.sh/hook-weight: "3"
+roleRef:
+  kind: Role
+  name: {{ $.Release.Name }}-generate-ssh-keys
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: {{ $.Release.Name }}-generate-ssh-keys
+  namespace: {{ $namespace }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-generate-ssh-keys-user
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+    helm.sh/hook-weight: "4"
+data:
+  group: |
+    root:x:0:
+    user:x:10000000:
+  passwd: |
+    root:x:0:0:root:/root:/bin/bash
+    user:x:10000000:10000000::/tmp:/bin/bash
+{{- if eq $namespace $.Release.Namespace }}
+{{- if not (lookup "v1" "Secret" $namespace (printf "%s-ssh-host-keys" $.Release.Name)) }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-generate-boot-ssh-keys
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+    helm.sh/hook-weight: "5"
+data:
+  generate-ssh-keys.sh: |
+    #!/bin/bash
+    mkdir -p ./etc/ssh &&
+    /usr/bin/ssh-keygen -A -f . &&
+    /usr/local/bin/kubectl create secret generic -n {{ $namespace }} {{ $.Release.Name }}-ssh-host-keys \
+      --from-file=./etc/ssh/ssh_host_rsa_key \
+      --from-file=./etc/ssh/ssh_host_ed25519_key \
+      --from-file=./etc/ssh/ssh_host_ecdsa_key &&
+    rm -rf ./etc
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $.Release.Name }}-generate-ssh-keys
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+    helm.sh/hook-weight: "6"
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ $.Release.Name }}-generate-ssh-keys
+      restartPolicy: Never
+      securityContext:
+        runAsUser: 10000000
+        runAsGroup: 10000000
+      containers:
+      - name: keygen
+        {{- with $.Values.boot.deployment.containers.keygen.image }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
+        {{- end }}
+        command: ["/usr/local/bin/generate-ssh-keys.sh"]
+        workingDir: /tmp
+        securityContext:
+          privileged: false
+          allowPrivilegeEscalation: false
+          runAsUser: 10000000
+          runAsGroup: 10000000
+          runAsNonRoot: true
+          capabilities:
+            drop:
+            - all
+        {{- with $.Values.boot.deployment.containers.keygen.resources }}
+        resources:
+        {{- toYaml . | nindent 10 -}}
+        {{- end }}
+        volumeMounts:
+        - name: {{ $.Release.Name }}-generate-ssh-keys-user
+          mountPath: /etc/group
+          subPath: group
+        - name: {{ $.Release.Name }}-generate-ssh-keys-user
+          mountPath: /etc/passwd
+          subPath: passwd
+        - name: {{ $.Release.Name }}-generate-boot-ssh-keys
+          mountPath: /usr/local/bin/generate-ssh-keys.sh
+          subPath: generate-ssh-keys.sh
+      volumes:
+      - name: {{ $.Release.Name }}-generate-boot-ssh-keys
+        configMap:
+          name: {{ $.Release.Name }}-generate-boot-ssh-keys
+          defaultMode: 0755
+      - name: {{ $.Release.Name }}-generate-ssh-keys-user
+        configMap:
+          name: {{ $.Release.Name }}-generate-ssh-keys-user
+          defaultMode: 0644
+  backoffLimit: 0
+{{- end }}
+{{- end }}
+{{- if or (ne $namespace $.Release.Namespace) $manageReleaseNamespace }}
+{{- if not (lookup "v1" "Secret" $namespace (printf "%s-vm-ssh-host-ca-keys" $.Release.Name)) }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-generate-ssh-keys
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+    helm.sh/hook-weight: "7"
+data:
+  generate-ssh-keys.sh: |
+    #!/bin/bash
+    /usr/bin/ssh-keygen -t ed25519 -f ca_key -N '' &&
+    /usr/local/bin/kubectl create secret generic -n {{ $namespace }} {{ $.Release.Name }}-vm-ssh-host-ca-keys --from-file=./ca_key --from-file=./ca_key.pub &&
+    /usr/bin/rm ./ca_key ./ca_key.pub
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $.Release.Name }}-generate-ssh-keys
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+    helm.sh/hook-weight: "8"
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ $.Release.Name }}-generate-ssh-keys
+      restartPolicy: Never
+      securityContext:
+        runAsUser: 10000000
+        runAsGroup: 10000000
+      containers:
+      - name: keygen
+        {{- with $.Values.boot.deployment.containers.keygen.image }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
+        {{- end }}
+        command: ["/usr/local/bin/generate-ssh-keys.sh"]
+        workingDir: /tmp
+        securityContext:
+          privileged: false
+          allowPrivilegeEscalation: false
+          runAsUser: 10000000
+          runAsGroup: 10000000
+          runAsNonRoot: true
+          capabilities:
+            drop:
+            - all
+        {{- with $.Values.boot.deployment.containers.keygen.resources }}
+        resources:
+        {{- toYaml . | nindent 10 -}}
+        {{- end }}
+        volumeMounts:
+        - name: {{ $.Release.Name }}-generate-ssh-keys-user
+          mountPath: /etc/group
+          subPath: group
+        - name: {{ $.Release.Name }}-generate-ssh-keys-user
+          mountPath: /etc/passwd
+          subPath: passwd
+        - name: {{ $.Release.Name }}-generate-ssh-keys
+          mountPath: /usr/local/bin/generate-ssh-keys.sh
+          subPath: generate-ssh-keys.sh
+      volumes:
+      - name: {{ $.Release.Name }}-generate-ssh-keys
+        configMap:
+          name: {{ $.Release.Name }}-generate-ssh-keys
+          defaultMode: 0755
+      - name: {{ $.Release.Name }}-generate-ssh-keys-user
+        configMap:
+          name: {{ $.Release.Name }}-generate-ssh-keys-user
+          defaultMode: 0644
+  backoffLimit: 0
+{{- end }}
+{{- end }}
+{{- end }}

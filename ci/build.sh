@@ -12,7 +12,7 @@ if [ -n "$path" ]; then
     CHARTS_REPO="$CHARTS_REPO$path/"
 fi
 mkdir -p "$output_dir"
-for package in moon moon2 browser-ops license-ops; do
+for package in moon moon2 browser-ops license-ops boot; do
   pushd "$package"
   version=$(yq '.version' Chart.yaml)
   if [ -n "$path" ]; then

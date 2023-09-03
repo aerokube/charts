@@ -1,0 +1,114 @@
+boot:
+  namespaces:
+  os:
+    ubuntu:
+      repository: quay.io/boot/ubuntu
+      versions:
+      - "22.04"
+#      resources:
+#        limits:
+#          cpu: 250m
+#          memory: 1Gi
+#        requests:
+#          cpu: 250m
+#          memory: 1Gi
+    alpine:
+      repository: quay.io/boot/alpine
+      versions:
+      - "3.18"
+#      resources:
+#        limits:
+#          cpu: 250m
+#          memory: 1Gi
+#        requests:
+#          cpu: 250m
+#          memory: 1Gi
+    ubi:
+      repository: quay.io/boot/ubi
+      versions:
+      - "9.2"
+#      resources:
+#        limits:
+#          cpu: 250m
+#          memory: 1Gi
+#        requests:
+#          cpu: 250m
+#          memory: 1Gi
+  jumphost:
+    user:
+      name: jump
+      uid: 10000000
+      gid: 10000000
+    port: 2222
+    authorizedKeys: []
+    trustedUserCAKeys: []
+    hostCertificate:
+  service:
+    annotations:
+    labels:
+    externalIPs:
+  serviceAccount:
+    annotations:
+    labels:
+  deployment:
+    annotations:
+    labels:
+    affinity:
+    tolerations:
+    nodeSelector:
+    strategy:
+    priorityClassName:
+    replicas: 2
+    terminationGracePeriodSeconds: 30
+    pods:
+      annotations:
+      labels:
+    containers:
+      boot:
+        image:
+          repository: quay.io/aerokube/boot
+          tag:
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      jumphost:
+        image:
+          repository: quay.io/aerokube/jumphost
+          tag:
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      keygen:
+        image:
+          repository: quay.io/aerokube/keygen
+          tag:
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      reloader:
+        image:
+          repository: quay.io/aerokube/reloader
+          tag:
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+##
+## License key. When empty default free license key is automatically used.
+##
+license:
