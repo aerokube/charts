@@ -83,6 +83,11 @@ ingress:
   customAnnotations: {}
 
 ##
+## Moon scc annotations.
+##
+sccAnnotations: {kubernetes.io/description: 'Like the restricted SCC, but with the seccompProfiles turn off'}
+
+##
 ## Moon service account annotations.
 ##
 serviceAccountAnnotations: {}
