@@ -42,11 +42,11 @@ boot:
     port: 2222
     authorizedKeys: []
     trustedUserCAKeys: []
-    hostCertificate:
   service:
     annotations:
     labels:
     externalIPs:
+    type:
   serviceAccount:
     annotations:
     labels:

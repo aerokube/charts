@@ -24,8 +24,5 @@ data:
       GatewayPorts no
       ForceCommand /sbin/nologin
 
-    {{- with .Values.boot.jumphost.hostCertificate }}
-    HostCertificate /etc/ssh/ssh_host_key-cert.pub
-    {{- end }}
     TrustedUserCAKeys /etc/ssh/user_ca.pub
     AuthorizedKeysFile /etc/ssh/authorized_keys
