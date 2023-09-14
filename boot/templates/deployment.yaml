@@ -64,6 +64,8 @@ spec:
         {{- end }}
         command:
         - /boot
+        - -ca-secret-name
+        - {{ .Release.Name }}-vm-ssh-host-ca-keys
         securityContext:
           privileged: false
           runAsUser: {{ printf "%d" (int64 .Values.boot.jumphost.user.uid) }}
@@ -141,11 +143,6 @@ spec:
         - name: ssh-host-keys
           mountPath: /etc/ssh/ssh_host_rsa_key
           subPath: ssh_host_rsa_key
-        {{- with .Values.boot.jumphost.hostCertificate }}
-        - name: ssh-keys
-          mountPath: /etc/ssh/ssh_host_key-cert.pub
-          subPath: ssh_host_key-cert.pub
-        {{- end }}
         - name: ssh-keys
           mountPath: /etc/ssh/authorized_keys
           subPath: authorized_keys

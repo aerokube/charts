@@ -25,6 +25,7 @@ spec:
   - {{ . }}
   {{- end }}
   {{- end }}
+  type: {{ .Values.boot.service.type | default "LoadBalancer" }}
 {{- $namespaces := .Values.boot.namespaces }}
 {{- if not $namespaces }}
 {{- $namespaces = list .Release.Namespace }}
