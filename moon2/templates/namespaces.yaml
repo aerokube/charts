@@ -3,7 +3,7 @@
 {{- if or (not $quota) (not $quota.namespace) }}
 {{- fail (printf "quota %s namespace is not set" $name) }}
 {{- end }}
-{{- if ne $quota.namespace $releaseNamespace }}
+{{- if and (ne $quota.createNamespace false) (ne $quota.namespace $releaseNamespace) }}
 ---
 apiVersion: v1
 kind: Namespace
