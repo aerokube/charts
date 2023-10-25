@@ -147,6 +147,11 @@ deployment:
   terminationGracePeriodSeconds:
 
   ##
+  ## Moon pods topologySpreadConstraints.
+  ##
+  topologySpreadConstraints:
+
+  ##
   ## Moon container image repository. Default is quay.io/aerokube/moon.
   ##
   moonRepo:
