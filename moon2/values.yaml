@@ -482,6 +482,7 @@ browsers:
 ##   moon: null
 ##   alfa-team:
 ##     namespace: alfa
+##     skipCreateNamespace: true
 ##     serviceAccountName: custom
 ##     serviceAccountAnnotations: {}
 ##   beta-team:
