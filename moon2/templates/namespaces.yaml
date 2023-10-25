@@ -4,10 +4,12 @@
 {{- fail (printf "quota %s namespace is not set" $name) }}
 {{- end }}
 {{- if ne $quota.namespace $releaseNamespace }}
+{{- if not $quota.skipCreateNamespace }}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ $quota.namespace }}
+{{- end }}
 {{- end }}
 {{- end }}
