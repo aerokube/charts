@@ -749,6 +749,15 @@ spec:
                         type: string
                     required:
                     - name
+                  noProxy:
+                    type: string
+                    default: ''
+                  httpProxy:
+                    type: string
+                    default: ''
+                  httpsProxy:
+                    type: string
+                    default: ''
                 type: object
               user:
                 default: {}
