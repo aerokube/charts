@@ -364,17 +364,23 @@ spec:
       width: 950
       height: 1280
       pixelRatio: 1
-      userAgent: ''
+      userAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/%s Safari/537.36
+      printVersion: true
     Laptop with HiDPI screen:
       width: 900
       height: 1440
       pixelRatio: 2
-      userAgent: ''
+      userAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/%s Safari/537.36
+      printVersion: true
     Laptop with MDPI screen:
       width: 800
       height: 1280
       pixelRatio: 1
-      userAgent: ''
+      userAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/%s Safari/537.36
+      printVersion: true
     LG Optimus L70:
       width: 384
       height: 640
