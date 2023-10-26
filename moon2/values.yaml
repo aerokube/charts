@@ -425,6 +425,9 @@ configs:
       filename: ""
       pattern: ""
       secretKey: ""
+      noProxy: ""
+      httpProxy: ""
+      httpsProxy: ""
 
 ##
 ## Available browsers set objects.
