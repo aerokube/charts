@@ -472,8 +472,12 @@ moon:
             port: "4444"
             path: "/"
       MicrosoftEdge:
-        default: "114.0"
+        default: "119.0"
         versions:
+          "119.0":
+            image: quay.io/browsers/edge:119.0
+            port: "4444"
+            path: "/"
           "114.0":
             image: quay.io/browsers/edge:114.0
             port: "4444"
@@ -583,8 +587,12 @@ moon:
             port: "4444"
             path: "/"
       firefox:
-        default: "118.0"
+        default: "119.0"
         versions:
+          "119.0":
+            image: quay.io/browsers/firefox:119.0
+            port: "4444"
+            path: "/wd/hub"
           "118.0":
             image: quay.io/browsers/firefox:118.0
             port: "4444"
@@ -1050,8 +1058,14 @@ moon:
             port: "4444"
             path: "/wd/hub"
       chrome:
-        default: "117.0"
+        default: "119.0"
         versions:
+          "119.0":
+            image: quay.io/browsers/chrome:119.0
+            port: "4444"
+          "118.0":
+            image: quay.io/browsers/chrome:118.0
+            port: "4444"
           "117.0":
             image: quay.io/browsers/chrome:117.0
             port: "4444"
@@ -1260,8 +1274,14 @@ moon:
             image: quay.io/browsers/chrome:48.0
             port: "4444"
       opera:
-        default: "103.0"
+        default: "105.0"
         versions:
+          "105.0":
+            image: quay.io/browsers/opera:105.0
+            port: "4444"
+          "104.0":
+            image: quay.io/browsers/opera:104.0
+            port: "4444"
           "103.0":
             image: quay.io/browsers/opera:103.0
             port: "4444"
