@@ -5,6 +5,7 @@ on:
     inputs:
       regenerateIndex:
         description: "Regenerate index from S3 archives"
+        type: boolean
         required: false
   push:
     branches:
