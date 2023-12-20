@@ -28,8 +28,7 @@ if [ -n "$regenerate" ] && [ "$regenerate" = "true" ]; then
   regenerateDir="regenerate"
   mkdir -p "$regenerateDir"
   pushd "$regenerateDir"
-  keys="$path/*.tgz"
-  aws s3 cp "s3://$S3_BUCKET_NAME$keys" . --endpoint="$S3_ENDPOINT"
+  aws s3 cp "s3://$S3_BUCKET_NAME/$path" . --recursive --exclude "*" --include "*.tgz" --endpoint="$S3_ENDPOINT"
   helm repo index . --url "$CHARTS_REPO"
   popd
   cp "$regenerateDir"/index.yaml .
