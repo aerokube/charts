@@ -23,7 +23,7 @@ for package in moon moon2 browser-ops license-ops boot; do
   helm package "$package" --destination "$output_dir" --version "$version"
 done
 cd "$output_dir"
-if [ -n "$regenerate" ] -a [ "$regenerate" = "true" ]; then
+if [ -n "$regenerate" ] && [ "$regenerate" = "true" ]; then
   regenerateDir="regenerate"
   mkdir -p "$regenerateDir"
   pushd "$regenerateDir"
