@@ -22,5 +22,5 @@ for package in moon moon2 browser-ops license-ops boot; do
   helm package "$package" --destination "$output_dir" --version "$version"
 done
 cd "$output_dir"
-wget "$CHARTS_REPO/index.yaml" || true
+wget -O index.yaml "$CHARTS_REPO/index.yaml"
 helm repo index . --url "$CHARTS_REPO" --merge index.yaml
