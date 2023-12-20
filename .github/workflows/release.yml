@@ -1,6 +1,11 @@
 name: release
 
 on:
+  workflow_dispatch:
+    inputs:
+      regenerateIndex:
+        description: "Regenerate index from S3 archives"
+        required: false
   release:
     types: [published]
 
@@ -18,7 +23,13 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
 
       - name: Build
-        run: ci/build.sh $RELEASE_VERSION
+        run: ci/build.sh $RELEASE_VERSION ${{ github.event.inputs.regenerateIndex }}
+        env:
+          S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.S3_REGION }}
 
       - name: Send output to S3 bucket
         working-directory: ./output

@@ -5,7 +5,8 @@ set -e
 CHARTS_REPO="https://charts.aerokube.com/"
 
 commit=$1
-path=${2:-""}
+regenerate=${2:-""}
+path=${3:-""}
 output_dir="output"
 if [ -n "$path" ]; then
     output_dir="$output_dir/$path"
@@ -22,5 +23,16 @@ for package in moon moon2 browser-ops license-ops boot; do
   helm package "$package" --destination "$output_dir" --version "$version"
 done
 cd "$output_dir"
-wget -O index.yaml "$CHARTS_REPO/index.yaml"
+if [ -n "$regenerate" ] -a [ "$regenerate" == "true" ]; then
+  regenerateDir="regenerate"
+  mkdir -p "$regenerateDir"
+  pushd "$regenerateDir"
+  aws s3 cp "s3://$S3_BUCKET_NAME" . --endpoint="$S3_ENDPOINT"
+  helm repo index . --url "$CHARTS_REPO"
+  popd
+  cp regenerate/index.yaml .
+  rm -Rf "$regenerateDir"
+else
+  wget -O index.yaml "$CHARTS_REPO/index.yaml"
+fi
 helm repo index . --url "$CHARTS_REPO" --merge index.yaml
