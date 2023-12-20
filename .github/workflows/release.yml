@@ -23,7 +23,7 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
 
       - name: Build
-        run: ci/build.sh $RELEASE_VERSION ${{ github.event.inputs.regenerateIndex }}
+        run: ci/build.sh $RELEASE_VERSION ${{ github.event.inputs.regenerateIndex != '' && github.event.inputs.regenerateIndex || 'false' }}
         env:
           S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}

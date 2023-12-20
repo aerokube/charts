@@ -33,6 +33,6 @@ if [ -n "$regenerate" ] && [ "$regenerate" = "true" ]; then
   cp regenerate/index.yaml .
   rm -Rf "$regenerateDir"
 else
-  wget -O index.yaml "$CHARTS_REPO/index.yaml"
+  wget -O index.yaml "$CHARTS_REPO"index.yaml
 fi
 helm repo index . --url "$CHARTS_REPO" --merge index.yaml
