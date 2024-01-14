@@ -34,7 +34,7 @@ jobs:
 
       - name: Send output to S3 bucket
         working-directory: ./output
-        run: aws s3 cp . --endpoint=${{ secrets.S3_ENDPOINT }}  s3://${{ secrets.S3_BUCKET_NAME }} --recursive --acl public-read
+        run: aws s3 cp . --endpoint=${{ secrets.S3_ENDPOINT }}  s3://${{ secrets.S3_BUCKET_NAME }} --recursive
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
