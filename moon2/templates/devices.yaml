@@ -5,6 +5,30 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   devices:
+    Apple iPhone 15 Pro Max:
+      width: 430
+      height: 932
+      pixelRatio: 3
+      userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15
+        (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1
+    Apple iPhone 15 Pro:
+      width: 393
+      height: 852
+      pixelRatio: 3
+      userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15
+        (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1
+    Apple iPhone 15 Plus:
+      width: 430
+      height: 932
+      pixelRatio: 3
+      userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15
+        (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1
+    Apple iPhone 15:
+      width: 393
+      height: 852
+      pixelRatio: 3
+      userAgent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15
+        (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1
     Apple iPhone 14 Pro Max:
       width: 430
       height: 932
