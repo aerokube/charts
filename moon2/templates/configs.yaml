@@ -2,6 +2,15 @@
 
 {{- $releaseNamespace := .Release.Namespace }}
 {{- range $name, $conf := .Values.configs }}
+{{- if $.Values.ingress.openshift }}
+{{- $containers := get $conf "containers" }}
+{{- $vncServer := get $containers "vnc-server" }}
+{{- $repo := get $vncServer "repository" }}
+{{- if eq $repo "quay.io/aerokube/vnc-server" }}
+{{- $_ := set $vncServer "repository" "quay.io/aerokube/vnc-server-openshift" }}
+{{- $_ := set $conf.containers "vnc-server" $vncServer }}
+{{- end }}
+{{- end }}
 ---
 apiVersion: moon.aerokube.com/v1
 kind: Config
