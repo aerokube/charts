@@ -472,8 +472,24 @@ moon:
             port: "4444"
             path: "/"
       MicrosoftEdge:
-        default: "119.0"
+        default: "123.0"
         versions:
+          "123.0":
+            image: quay.io/browsers/edge:123.0
+            port: "4444"
+            path: "/"
+          "122.0":
+            image: quay.io/browsers/edge:122.0
+            port: "4444"
+            path: "/"
+          "121.0":
+            image: quay.io/browsers/edge:121.0
+            port: "4444"
+            path: "/"
+          "120.0":
+            image: quay.io/browsers/edge:120.0
+            port: "4444"
+            path: "/"
           "119.0":
             image: quay.io/browsers/edge:119.0
             port: "4444"
@@ -587,8 +603,24 @@ moon:
             port: "4444"
             path: "/"
       firefox:
-        default: "119.0"
+        default: "123.0"
         versions:
+          "123.0":
+            image: quay.io/browsers/firefox:123.0
+            port: "4444"
+            path: "/wd/hub"
+          "122.0":
+            image: quay.io/browsers/firefox:122.0
+            port: "4444"
+            path: "/wd/hub"
+          "121.0":
+            image: quay.io/browsers/firefox:121.0
+            port: "4444"
+            path: "/wd/hub"
+          "120.0":
+            image: quay.io/browsers/firefox:120.0
+            port: "4444"
+            path: "/wd/hub"
           "119.0":
             image: quay.io/browsers/firefox:119.0
             port: "4444"
@@ -1058,8 +1090,20 @@ moon:
             port: "4444"
             path: "/wd/hub"
       chrome:
-        default: "119.0"
+        default: "123.0"
         versions:
+          "123.0":
+            image: quay.io/browsers/chrome:123.0
+            port: "4444"
+          "122.0":
+            image: quay.io/browsers/chrome:122.0
+            port: "4444"
+          "121.0":
+            image: quay.io/browsers/chrome:121.0
+            port: "4444"
+          "120.0":
+            image: quay.io/browsers/chrome:120.0
+            port: "4444"
           "119.0":
             image: quay.io/browsers/chrome:119.0
             port: "4444"
@@ -1274,8 +1318,20 @@ moon:
             image: quay.io/browsers/chrome:48.0
             port: "4444"
       opera:
-        default: "105.0"
+        default: "109.0"
         versions:
+          "109.0":
+            image: quay.io/browsers/opera:109.0
+            port: "4444"
+          "108.0":
+            image: quay.io/browsers/opera:108.0
+            port: "4444"
+          "107.0":
+            image: quay.io/browsers/opera:107.0
+            port: "4444"
+          "106.0":
+            image: quay.io/browsers/opera:106.0
+            port: "4444"
           "105.0":
             image: quay.io/browsers/opera:105.0
             port: "4444"
