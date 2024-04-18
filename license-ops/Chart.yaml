@@ -1,6 +1,6 @@
 apiVersion: v2
 name: license-ops
-version: 2.6.5
+version: 2.6.6
 appVersion: 1.0.1
 description: License Operations chart
 icon: https://aerokube.com/img/aerokube_logo.svg
