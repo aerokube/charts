@@ -1,6 +1,6 @@
 apiVersion: v2
 name: browser-ops
-version: 2.6.6
-appVersion: 2.6.6
+version: 2.6.7
+appVersion: 2.6.7
 description: Browser Operations chart
 icon: https://aerokube.com/img/aerokube_logo.svg
