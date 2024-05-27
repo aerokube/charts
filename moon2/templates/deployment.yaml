@@ -134,6 +134,10 @@ spec:
         - -browser-limit
         - {{ .Values.deployment.moonBrowserLimit | quote }}
         {{- end }}
+        {{- if .Values.ingress.openshift }}
+        env:
+        - name: OPENSHIFT
+        {{- end }}
         resources:
           limits:
             cpu: {{ $def := "0.5" -}}

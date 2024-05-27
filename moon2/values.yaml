@@ -374,7 +374,8 @@ configs:
             cpu: 100m
             memory: 32Mi
       proxy:
-        repository: quay.io/aerokube/proxy
+        repository: quay.io/aerokube/tinyproxy
+        version: 1.11.2
         resources:
           limits:
             cpu: 200m
@@ -401,7 +402,18 @@ configs:
             cpu: 250m
             memory: 2Gi
       vnc-server:
-        repository: quay.io/aerokube/vnc-server
+        repository: quay.io/aerokube/x11vnc
+        version: 0.9.16
+        resources:
+          limits:
+            cpu: 200m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      window-manager:
+        repository: quay.io/aerokube/openbox
+        version: 3.6.1
         resources:
           limits:
             cpu: 200m
@@ -410,7 +422,8 @@ configs:
             cpu: 100m
             memory: 128Mi
       x-server:
-        repository: quay.io/aerokube/xvfb-server
+        repository: quay.io/aerokube/xvfb
+        version: "21.1"
         resources:
           limits:
             cpu: 200m
@@ -418,6 +431,16 @@ configs:
           requests:
             cpu: 100m
             memory: 128Mi
+      additional-fonts:
+        repository: quay.io/aerokube/fonts
+        version: 1.0.0
+        resources:
+          limits:
+            cpu: 200m
+            memory: 32Mi
+          requests:
+            cpu: 100m
+            memory: 32Mi
     storage:
       accessKey: ""
       bucket: ""
