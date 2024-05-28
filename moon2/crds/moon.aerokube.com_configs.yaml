@@ -183,6 +183,9 @@ spec:
                   httpsProxy:
                     type: string
                     default: ''
+                  metadata:
+                    type: boolean
+                    default: true
                 type: object
               user:
                 default: {}
