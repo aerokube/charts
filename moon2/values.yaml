@@ -297,6 +297,21 @@ deployment:
   #  runAsUser: 1000
 
   ##
+  ## Security context for containers running in Moon pod.
+  ##
+  containerSecurityContext: {}
+  #  allowPrivilegeEscalation: false
+  #  capabilities:
+  #    drop:
+  #    - ALL
+  #    privileged: false
+  #    runAsGroup: 1000
+  #    runAsNonRoot: true
+  #    runAsUser: 1000
+  #    seccompProfile:
+  #      type: RuntimeDefault
+
+  ##
   ## Optional fields that specifies the maximum number of pods that can be created over the desired number of pods
   ## and that can be unavailable during the update. You can use both int and percent values.
   ##
