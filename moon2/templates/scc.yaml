@@ -29,6 +29,12 @@ requiredDropCapabilities:
 - SETGID
 runAsUser:
   type: MustRunAsRange
+  {{- if .Values.sccUIDRangeMax }}
+  uidRangeMax: {{- .Values.sccUIDRangeMax }}
+  {{- end }}
+  {{- if .Values.sccUIDRangeMin }}
+  uidRangeMax: {{- .Values.sccUIDRangeMin }}
+  {{- end }}
 seLinuxContext:
   type: MustRunAs
 seccompProfiles: []
