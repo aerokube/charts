@@ -511,7 +511,7 @@ browsers:
         default: 118.0.5461.41-8
       safari:
         repository: quay.io/browser/safari
-        default: 18.4
+        default: "18.4"
     cypress:
       electron:
         repository: quay.io/browsers/cypress-electron
