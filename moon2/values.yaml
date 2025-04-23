@@ -88,6 +88,12 @@ ingress:
 sccAnnotations: {kubernetes.io/description: 'Like the restricted SCC, but with the seccompProfiles turn off'}
 
 ##
+## Moon scc runAs range.
+##
+sccUIDRangeMax:
+sccUIDRangeMin:
+
+##
 ## Moon service account annotations.
 ##
 serviceAccountAnnotations: {}
