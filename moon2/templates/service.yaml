@@ -56,6 +56,7 @@ spec:
       {{- end }}
     {{- end }}
   {{- end }}
+  {{- if .Values.deployment.oldUI }}
   - name: moon-ui
     protocol: TCP
     port: 8080
@@ -64,6 +65,7 @@ spec:
     targetPort: 8181
       {{- end }}
     {{- end }}
+  {{- end }}
   {{- if and (not .Values.ingress.enabled)  (not .Values.customIngress.enabled) }}
   {{- if .Values.service }}
   {{- if .Values.service.type }}

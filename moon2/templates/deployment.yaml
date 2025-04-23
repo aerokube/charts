@@ -378,6 +378,7 @@ spec:
         ports:
         - containerPort: 9090
       {{- end }}
+      {{- if .Values.deployment.oldUI }}
       - name: moon-ui
         image: {{ $defRepo := "quay.io/aerokube/moon-ui" -}}
           {{- $defTag := "2.0.7" -}}
@@ -430,5 +431,6 @@ spec:
       - name: conf
         secret:
           secretName: {{ .Release.Name }}-basic-auth
+      {{- end }}
       {{- end }}
       {{- end }}
