@@ -499,19 +499,19 @@ browsers:
     selenium:
       MicrosoftEdge:
         repository: quay.io/browser/microsoft-edge-stable
-        default: 133.0.3065.59-6
+        default: 135.0.3179.85-7
       chrome:
         repository: quay.io/browser/google-chrome-stable
-        default: 133.0.6943.98-6
+        default: 135.0.7049.95-7
       firefox:
         repository: quay.io/browser/firefox-mozilla-build
-        default: 135.0.0-5
+        default: 136.0.4-6
       opera:
         repository: quay.io/browser/opera-stable
-        default: 116.0.5366.127-7
+        default: 118.0.5461.41-8
       safari:
         repository: quay.io/browser/safari
-        default: 15.0-0
+        default: "18.4"
     cypress:
       electron:
         repository: quay.io/browsers/cypress-electron
