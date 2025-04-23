@@ -3,6 +3,8 @@ apiVersion: moon.aerokube.com/v1
 kind: License
 metadata:
   name: {{ .Release.Name }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
 spec:
   namespace: {{ .Release.Namespace }}
   data: {{ if .Values.licenseSecretName -}}

@@ -120,6 +120,9 @@ metadata:
     haproxy.router.openshift.io/timeout: {{ (printf "%ds" (.Values.ingress.proxyReadTimeout | int)) | quote }}
     {{- end }}
     {{- end }}
+    {{- if not .Values.deployment.oldUI }}
+    nginx.ingress.kubernetes.io/app-root: /ui
+    {{- end }}
     {{- if $basicAuth }}
     {{- if eq $basicAuth "kubernetes" }}
     nginx.ingress.kubernetes.io/auth-type: basic
@@ -149,7 +152,11 @@ spec:
     http:
       paths:
       {{- if .Values.deployment.experimentalUI }}
+      {{- if .Values.deployment.oldUI }}
       - path: /ui
+      {{- else }}
+      - path: /
+      {{- end }}
         pathType: Prefix
         backend:
           service:
@@ -164,6 +171,7 @@ spec:
             port:
               number: 9090
       {{- end }}
+      {{- if .Values.deployment.oldUI }}
       - path: /
         pathType: Prefix
         backend:
@@ -171,6 +179,7 @@ spec:
             name: {{ .Release.Name }}
             port:
               number: 8080
+      {{- end }}
       {{- if $basicAuth }}
       - path: /wd/hub/session
         pathType: Exact
