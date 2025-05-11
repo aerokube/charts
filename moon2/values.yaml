@@ -447,6 +447,16 @@ configs:
           requests:
             cpu: 100m
             memory: 128Mi
+      sound-server:
+        repository: quay.io/aerokube/pulseaudio
+        version: 17.0.0
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
       x-server:
         repository: quay.io/aerokube/xvfb
         version: "21.1"
@@ -499,16 +509,16 @@ browsers:
     selenium:
       MicrosoftEdge:
         repository: quay.io/browser/microsoft-edge-stable
-        default: 135.0.3179.85-7
+        default: 136.0.3240.64-8
       chrome:
         repository: quay.io/browser/google-chrome-stable
-        default: 135.0.7049.95-7
+        default: 136.0.7103.92-8
       firefox:
         repository: quay.io/browser/firefox-mozilla-build
-        default: 136.0.4-6
+        default: 138.0.1-7
       opera:
         repository: quay.io/browser/opera-stable
-        default: 118.0.5461.41-8
+        default: 118.0.5461.83-9
       safari:
         repository: quay.io/browser/safari
         default: "18.4"
