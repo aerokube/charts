@@ -509,16 +509,16 @@ browsers:
     selenium:
       MicrosoftEdge:
         repository: quay.io/browser/microsoft-edge-stable
-        default: 136.0.3240.64-8
+        default: 138.0.3351.121-8
       chrome:
         repository: quay.io/browser/google-chrome-stable
-        default: 136.0.7103.92-8
+        default: 138.0.7204.183-8
       firefox:
         repository: quay.io/browser/firefox-mozilla-build
-        default: 138.0.1-7
+        default: 141.0.0-7
       opera:
         repository: quay.io/browser/opera-stable
-        default: 118.0.5461.83-9
+        default: 120.0.5543.128-9
       safari:
         repository: quay.io/browser/safari
         default: "18.4"
