@@ -299,7 +299,7 @@ deployment:
   ##
   ## Old Moon UI
   ##
-  oldUI: true
+  oldUI: false
 
   ## If specified, the pod's security policies.
   ## ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
@@ -418,6 +418,15 @@ configs:
           requests:
             cpu: 100m
             memory: 128Mi
+      guardian:
+        repository: quay.io/aerokube/guardian
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
       video-recorder:
         repository: quay.io/aerokube/video-recorder
         resources:
@@ -509,19 +518,19 @@ browsers:
     selenium:
       MicrosoftEdge:
         repository: quay.io/browser/microsoft-edge-stable
-        default: 143.0.3650.80-15
+        default: 145.0.3800.82
       chrome:
         repository: quay.io/browser/google-chrome-stable
-        default: 143.0.7499.146-15
+        default: 145.0.7632.116
       chrome-for-testing:
         repository: quay.io/browser/chrome-for-testing
-        default: 143.0.7499.146
+        default: 146.0.7680.31
       firefox:
         repository: quay.io/browser/firefox-mozilla-build
-        default: 146.0.0
+        default: 148.0.0
       opera:
         repository: quay.io/browser/opera-stable
-        default: 125.0.5729.21-16
+        default: 128.0.5807.25
       safari:
         repository: quay.io/browser/safari
         default: "18.4"
