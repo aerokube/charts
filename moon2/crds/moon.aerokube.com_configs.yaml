@@ -153,6 +153,9 @@ spec:
                   endpoint:
                     type: string
                     default: ''
+                  region:
+                    type: string
+                    default: null
                   filename:
                     type: string
                     default: ''
